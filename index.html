@@ -249,7 +249,7 @@ section{margin-bottom:26px}
     return '<div class="media '+(cls||'')+'">'+inner+'</div>';
   }
   window.__imgFail = function(img){ var d=document.createElement('div'); d.className='ph'; var full=img.getAttribute('data-pf')||'фото'; var short={'Instagram':'IG','Telegram':'TG','VK':'VK','Threads':'TH','mom.life':'ML'}[full]; var w=img.parentNode?img.parentNode.offsetWidth:0; d.textContent=(short && w && w<90)?short:full; if(img.parentNode) img.parentNode.replaceChild(d, img); };
-  function tag(p){ return '<span class="tag pf-'+esc(p.platform)+'">'+esc(pfName(p.platform))+'</span>'; }
+  function tag(p){ return '<span class="tag pf-'+esc(p.platform)+'">'+esc(pfName(p.platform))+'</span>'+(p.revised?' <span class="tag" style="background:#DDF2DD;color:#2E6B2E">исправлено</span>':''); }
   function text(p){
     var open = !!expanded[p.id];
     return '<p class="post-text '+(open?'':'clamp')+'" data-action="toggle" data-id="'+esc(p.id)+'">'+esc(p.text)+'</p>';
