@@ -59,7 +59,7 @@ async function zipAll(it){
 }
 function card(it){
   const c=document.createElement('div');c.className='card';
-  c.innerHTML='<span class="tag" style="background:'+(it.platform.indexOf("Pinterest")==0?"#e60023":it.platform.indexOf("Telegram")==0?"#2481cc":"#f58529")+'">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
+  c.innerHTML='<span class="tag" style="background:'+(it.platform.indexOf("Pinterest")==0?"#e60023":it.platform.indexOf("Telegram")==0?"#2481cc":it.platform.indexOf("mom")==0?"#8e5bd0":"#f58529")+'">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
   c.querySelector('h3').textContent=it.title;c.querySelector('.note').textContent=it.note||'';
   const th=c.querySelector('.thumbs');
   it.files.forEach(f=>{const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.preload='metadata';e.muted=true}else{e.loading='lazy'}th.appendChild(e)});
