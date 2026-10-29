@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Архив выкладки</title>
+<style>
+:root{--bg:#faf8f3;--card:#fff;--ink:#1c1c1c;--grey:#6e6964;--acc:#c8a882;--line:#e8e2d8}
+@media (prefers-color-scheme:dark){:root{--bg:#171512;--card:#221f1b;--ink:#f3efe8;--grey:#a39d94;--line:#35302a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:26px;margin:8px 0 4px}
+.sub{color:var(--grey);margin:0 0 24px;font-size:14px}
+h2{font-size:15px;color:var(--grey);text-transform:uppercase;letter-spacing:.06em;margin:28px 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.tag{display:inline-block;background:var(--acc);color:#1c1c1c;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:600;margin-right:6px}
+.card h3{margin:10px 0 4px;font-size:18px}
+.note{color:var(--grey);font-size:14px;margin:0 0 10px}
+.thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:8px 0}
+.thumbs img,.thumbs video{height:130px;border-radius:10px;flex:0 0 auto;border:1px solid var(--line)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+button,a.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:20px;padding:8px 14px;cursor:pointer;text-decoration:none}
+button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;font-weight:600}
+.txt{border:1px dashed var(--line);border-radius:12px;padding:10px;margin-top:10px;font-size:14px;white-space:pre-wrap}
+.txt b{display:block;font-size:13px;color:var(--grey);margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1c1c1c;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
+.foot{color:var(--grey);font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+<main>
+<h1>Архив выкладки</h1>
+<p class="sub">Всё готовое по датам: нажми «Скачать всё» или «Скопировать текст». Дату можно сказать Лии, она перенесёт карточку.</p>
+<div id="app"></div>
+<p class="foot">*Instagram принадлежит Meta, признанной в РФ экстремистской организацией.</p>
+</main>
+<div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+async function copy(t){try{await navigator.clipboard.writeText(t);toast('Скопировано')}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();toast('Скопировано')}}
+function isVid(f){return /\.(mp4|mov)$/i.test(f)}
+function fmt(d){if(!d)return null;const [y,m,dd]=d.split('-');return dd+'.'+m+'.'+y}
+async function zipAll(it){
+  if(!window.JSZip){toast('Скачай файлы по одному');return}
+  toast('Собираю архив...');
+  const z=new JSZip();
+  for(const f of it.files){const r=await fetch('files/'+f);z.file(f.split('/').pop(),await r.blob())}
+  it.texts.forEach((t,i)=>z.file('text-'+(i+1)+'.txt',t.label+'\n\n'+t.text));
+  const b=await z.generateAsync({type:'blob'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=it.id+'.zip';a.click();
+}
+function card(it){
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML='<span class="tag">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
+  c.querySelector('h3').textContent=it.title;c.querySelector('.note').textContent=it.note||'';
+  const th=c.querySelector('.thumbs');
+  it.files.forEach(f=>{const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.preload='metadata';e.muted=true}else{e.loading='lazy'}th.appendChild(e)});
+  const bt=c.querySelector('.btns');
+  const all=document.createElement('button');all.className='main';all.textContent='Скачать всё';all.onclick=()=>zipAll(it);bt.appendChild(all);
+  it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
+  it.texts.forEach(t=>{const d=document.createElement('div');d.className='txt';const b=document.createElement('b');b.textContent=t.label;d.appendChild(b);d.appendChild(document.createTextNode(t.text));
+    const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);d.appendChild(document.createElement('br'));d.appendChild(cb);c.appendChild(d)});
+  return c;
+}
+fetch('data.json').then(r=>r.json()).then(d=>{
+  const app=$('#app');
+  const groups={};d.items.forEach(i=>{(groups[i.date||'']=groups[i.date||'']||[]).push(i)});
+  const keys=Object.keys(groups).sort((a,b)=>a===''?-1:b===''?1:a<b?-1:1);
+  keys.forEach(k=>{const h=document.createElement('h2');h.textContent=k?fmt(k):'Готово, дата не назначена';app.appendChild(h);groups[k].forEach(i=>app.appendChild(card(i)))});
+});
+</script>
+</body>
+</html>
