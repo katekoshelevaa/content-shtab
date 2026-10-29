@@ -501,5 +501,24 @@ section{margin-bottom:26px}
   load();
 })();
 </script>
+
+<style>
+#shtabBar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:0;background:#EFEEE8;border-top:1px solid #d9d6cc;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+#shtabBar button{flex:1;padding:14px 8px;border:0;background:transparent;font:600 15px -apple-system,Segoe UI,Roboto,sans-serif;color:#7a756c}
+#shtabBar button.on{color:#1c1c1c;box-shadow:inset 0 3px 0 #c8a882}
+#archFrame{position:fixed;left:0;right:0;top:0;bottom:50px;width:100%;height:calc(100% - 50px);border:0;background:#faf8f3;display:none;z-index:40}
+#app{padding-bottom:70px}
+</style>
+<div id="shtabBar"><button id="tabMain" class="on">Контент</button><button id="tabArch">Архив выкладки</button></div>
+<iframe id="archFrame" title="Архив выкладки"></iframe>
+<script>
+(function(){
+  var A="a-65af381c9bbed11b/",f=document.getElementById('archFrame'),app=document.getElementById('app');
+  function show(a){document.getElementById('tabMain').className=a?'':'on';document.getElementById('tabArch').className=a?'on':'';f.style.display=a?'block':'none';app.style.display=a?'none':'';if(a&&!f.src)f.src=A;try{localStorage.setItem('shtab-tab',a?'a':'m')}catch(e){}}
+  document.getElementById('tabMain').onclick=function(){show(false)};
+  document.getElementById('tabArch').onclick=function(){show(true)};
+  try{if(localStorage.getItem('shtab-tab')==='a')show(true)}catch(e){}
+})();
+</script>
 </body>
 </html>

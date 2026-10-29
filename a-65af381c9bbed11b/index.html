@@ -41,11 +41,15 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;f
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 const $=s=>document.querySelector(s);
+const TGW=(function(){try{return (window.Telegram&&window.Telegram.WebApp)||(window.parent&&window.parent.Telegram&&window.parent.Telegram.WebApp)||null}catch(e){return null}})();
+function abs(f){return new URL('files/'+f,location.href).href}
+function tgDl(f){try{if(TGW&&TGW.downloadFile){TGW.downloadFile({url:abs(f),file_name:f.split('/').pop()});return true}}catch(e){}return false}
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast('Скопировано')}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();toast('Скопировано')}}
 function isVid(f){return /\.(mp4|mov)$/i.test(f)}
 function fmt(d){if(!d)return null;const [y,m,dd]=d.split('-');return dd+'.'+m+'.'+y}
 async function zipAll(it){
+  if(TGW&&TGW.downloadFile){it.files.forEach(f=>tgDl(f));return}
   if(!window.JSZip){toast('Скачай файлы по одному');return}
   toast('Собираю архив...');
   const z=new JSZip();
@@ -62,7 +66,7 @@ function card(it){
   it.files.forEach(f=>{const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.preload='metadata';e.muted=true}else{e.loading='lazy'}th.appendChild(e)});
   const bt=c.querySelector('.btns');
   const all=document.createElement('button');all.className='main';all.textContent='Скачать всё';all.onclick=()=>zipAll(it);bt.appendChild(all);
-  it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
+  it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.onclick=e=>{if(tgDl(f))e.preventDefault()};a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
   it.texts.forEach(t=>{const d=document.createElement('div');d.className='txt';const b=document.createElement('b');b.textContent=t.label;d.appendChild(b);d.appendChild(document.createTextNode(t.text));
     const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);d.appendChild(document.createElement('br'));d.appendChild(cb);c.appendChild(d)});
   return c;
