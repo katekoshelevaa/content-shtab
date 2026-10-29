@@ -87,7 +87,7 @@ function card(it){
     const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);d.appendChild(document.createElement('br'));d.appendChild(cb);c.appendChild(d)});
   return c;
 }
-fetch('data.json').then(r=>r.json()).then(d=>{
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{
   const app=$('#app');
   const groups={};d.items.forEach(i=>{(groups[i.date||'']=groups[i.date||'']||[]).push(i)});
   const keys=Object.keys(groups).sort((a,b)=>a===''?-1:b===''?1:a<b?-1:1);
