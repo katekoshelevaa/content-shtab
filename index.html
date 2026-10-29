@@ -19,7 +19,7 @@ h2{font-size:15px;color:var(--grey);text-transform:uppercase;letter-spacing:.06e
 .card h3{margin:10px 0 4px;font-size:18px}
 .note{color:var(--grey);font-size:14px;margin:0 0 10px}
 .thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:8px 0}
-.thumbs img,.thumbs video{height:130px;border-radius:10px;flex:0 0 auto;border:1px solid var(--line)}
+.thumbs img,.thumbs video{height:130px;display:block;border-radius:10px;flex:0 0 auto;border:1px solid var(--line)}
 .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 button,a.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:20px;padding:8px 14px;cursor:pointer;text-decoration:none}
 button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;font-weight:600}
@@ -37,7 +37,7 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;f
 <div id="app"></div>
 <p class="foot">*Instagram принадлежит Meta, признанной в РФ экстремистской организацией.</p>
 </main>
-<div class="lb" id="lb"><div class="lbtop"><button id="lbBack">← Назад</button></div><div class="lbbody" id="lbBody"></div><div class="lbbot"><button class="main" id="lbSave">Сохранить в фотопленку</button><button id="lbDl">Скачать файл</button></div></div>
+<div class="lb" id="lb"><div class="lbtop"><button id="lbBack">← Назад</button> <span id="lbCnt" style="color:var(--grey);margin-left:10px;font-size:14px"></span></div><div class="lbbody" id="lbBody"></div><div class="lbbot"><button class="main" id="lbSave">Сохранить в фотопленку</button><button id="lbDl">Скачать файл</button></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
@@ -48,8 +48,10 @@ function tgDl(f){try{if(TGW&&TGW.downloadFile){TGW.downloadFile({url:abs(f),file
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast('Скопировано')}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();toast('Скопировано')}}
 
-let LBF=null;
-function openLb(f){LBF=f;const b=$('#lbBody');b.innerHTML='';const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.playsInline=true}b.appendChild(e);$('#lb').classList.add('on');try{if(TGW&&TGW.BackButton){TGW.BackButton.show();TGW.BackButton.onClick(closeLb)}}catch(x){}}
+let LBF=null,LBL=[],LBI=0;
+function showLb(){const f=LBL[LBI];LBF=f;const b=$('#lbBody');b.innerHTML='';const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.playsInline=true}b.appendChild(e);$('#lbCnt').textContent=LBL.length>1?(LBI+1)+' / '+LBL.length:'';}
+function openLb(f,list){LBL=list||[f];LBI=Math.max(0,LBL.indexOf(f));showLb();$('#lb').classList.add('on');try{if(TGW&&TGW.BackButton){TGW.BackButton.show();TGW.BackButton.onClick(closeLb)}}catch(x){}}
+function stepLb(n){if(LBL.length<2)return;LBI=(LBI+n+LBL.length)%LBL.length;showLb()}
 function closeLb(){$('#lb').classList.remove('on');$('#lbBody').innerHTML='';LBF=null;try{if(TGW&&TGW.BackButton){TGW.BackButton.offClick(closeLb);TGW.BackButton.hide()}}catch(x){}}
 async function saveLb(){
   if(!LBF)return;const f=LBF;
@@ -59,7 +61,7 @@ async function saveLb(){
   if(tgDl(f)){toast('Скачивание запущено');return}
   toast('Нажми и удерживай картинку, затем «Сохранить»');
 }
-document.addEventListener('DOMContentLoaded',()=>{$('#lbBack').onclick=closeLb;$('#lbSave').onclick=saveLb;$('#lbDl').onclick=()=>{if(LBF&&!tgDl(LBF)){const a=document.createElement('a');a.href='files/'+LBF;a.download=LBF.split('/').pop();a.click()}}});
+document.addEventListener('DOMContentLoaded',()=>{let sx=null;const bd=$('#lbBody');bd.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});bd.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>50)stepLb(dx<0?1:-1)});document.addEventListener('keydown',e=>{if(!$('#lb').classList.contains('on'))return;if(e.key==='ArrowRight')stepLb(1);if(e.key==='ArrowLeft')stepLb(-1);if(e.key==='Escape')closeLb()});$('#lbBack').onclick=closeLb;$('#lbSave').onclick=saveLb;$('#lbDl').onclick=()=>{if(LBF&&!tgDl(LBF)){const a=document.createElement('a');a.href='files/'+LBF;a.download=LBF.split('/').pop();a.click()}}});
 function isVid(f){return /\.(mp4|mov)$/i.test(f)}
 function fmt(d){if(!d)return null;const [y,m,dd]=d.split('-');return dd+'.'+m+'.'+y}
 async function zipAll(it){
@@ -77,7 +79,7 @@ function card(it){
   c.innerHTML='<span class="tag" style="background:'+(it.platform.indexOf("Pinterest")==0?"#e60023":it.platform.indexOf("Telegram")==0?"#2481cc":it.platform.indexOf("mom")==0?"#f58529":"#e1306c")+'">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
   c.querySelector('h3').textContent=it.title;c.querySelector('.note').textContent=it.note||'';
   const th=c.querySelector('.thumbs');
-  it.files.forEach(f=>{const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.preload='metadata';e.muted=true}else{e.loading='lazy'}e.onclick=()=>openLb(f);th.appendChild(e)});
+  it.files.forEach(f=>{const w=document.createElement('div');w.style.cssText='position:relative;flex:0 0 auto;cursor:pointer';const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f+(isVid(f)?'#t=0.5':'');if(isVid(f)){e.preload='metadata';e.muted=true;e.playsInline=true;e.style.pointerEvents='none'}else{e.loading='lazy'}w.appendChild(e);if(isVid(f)){const pl=document.createElement('div');pl.textContent='▶';pl.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;text-shadow:0 0 8px #000';w.appendChild(pl)}w.onclick=()=>openLb(f,it.files);th.appendChild(w)});
   const bt=c.querySelector('.btns');
   const all=document.createElement('button');all.className='main';all.textContent='Скачать всё';all.onclick=()=>zipAll(it);bt.appendChild(all);
   it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.onclick=e=>{if(tgDl(f))e.preventDefault()};a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});

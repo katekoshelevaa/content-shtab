@@ -50,22 +50,6 @@
    "note": "6 слайдов. Подпись можно взять вариант 1 или 2."
   },
   {
-   "id": "stories-agent",
-   "date": "",
-   "platform": "Instagram*",
-   "kind": "Сториз",
-   "title": "Серия про агента (5 сториз)",
-   "files": [
-    "stories-agent/story-1.png",
-    "stories-agent/story-2.png",
-    "stories-agent/story-3.png",
-    "stories-agent/story-4.png",
-    "stories-agent/story-5.png"
-   ],
-   "texts": [],
-   "note": "Совет: выложить последнюю с призывом «агент», остальные по желанию."
-  },
-  {
    "id": "carousel-day",
    "date": "2026-10-29",
    "platform": "Instagram*",
