@@ -1,0 +1,32 @@
+{
+ "entries": [
+  {
+   "date": "2026-10-28",
+   "platform": "telegram",
+   "metric": "подписчики",
+   "value": 121,
+   "note": "по твоим словам"
+  },
+  {
+   "date": "2026-10-29",
+   "platform": "telegram",
+   "metric": "подписчики",
+   "value": 120,
+   "note": ""
+  },
+  {
+   "date": "2026-10-29",
+   "platform": "threads",
+   "metric": "подписчики",
+   "value": 2,
+   "note": ""
+  },
+  {
+   "date": "2026-10-29",
+   "platform": "threads",
+   "metric": "просмотры за день",
+   "value": 278,
+   "note": ""
+  }
+ ]
+}

@@ -24,7 +24,7 @@ button,a.btn{font:inherit;font-size:14px;border:1px solid var(--line);background
 button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;font-weight:600}
 .txt{border:1px dashed var(--line);border-radius:12px;padding:10px;margin-top:10px;font-size:14px;white-space:pre-wrap}
 .txt b{display:block;font-size:13px;color:var(--grey);margin-bottom:4px}
-.lb{position:fixed;inset:0;background:#fff;z-index:100;display:none;flex-direction:column}.lb.on{display:flex}.lbtop{padding:12px 14px;border-bottom:1px solid var(--line)}.lbtop button{font-weight:600}.lbbody{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:10px}.lbbody img,.lbbody video{max-width:100%;max-height:100%;border-radius:12px}.lbbot{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line)}.thumbs img,.thumbs video{cursor:pointer}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1c1c1c;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
+.lb{position:fixed;inset:0;background:#fff;z-index:100;display:none;flex-direction:column}.lb.on{display:flex}.lbtop{padding:12px 14px;border-bottom:1px solid var(--line)}.lbtop button{font-weight:600}.lbbody{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:10px}.lbbody img,.lbbody video{max-width:100%;max-height:100%;border-radius:12px}.lbbot{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line)}.thumbs img,.thumbs video{cursor:pointer}.cal{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:18px}.calh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.calh b{font-size:17px;text-transform:capitalize}.calh button{padding:4px 12px}.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.grid .wd{font-size:12px;color:var(--grey)}.day{padding:6px 0 4px;border-radius:10px;cursor:pointer;min-height:48px}.day.sel{background:#f3ece1}.day.today .n{background:var(--ink);color:#fff;border-radius:50%;display:inline-block;width:24px;height:24px;line-height:24px}.day.off{opacity:.35}.n{font-size:14px;display:inline-block}.dots{display:flex;gap:3px;justify-content:center;margin-top:3px;flex-wrap:wrap}.dots i{width:7px;height:7px;border-radius:50%;display:block}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--grey);margin-top:10px}.legend span i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.dayinfo{font-size:14px;margin-top:10px;white-space:pre-wrap}.stat{border-bottom:1px solid var(--line);padding:10px 0}.stat:last-child{border:0}.stat .v{font-size:22px;font-weight:700}.stat .dl{font-size:13px;margin-left:8px}.up{color:#2e9e5b}.down{color:#d44}.spark{display:block;margin-top:6px}.fb{font-size:13px;color:var(--grey);margin-top:4px}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1c1c1c;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
 .toast.on{opacity:1}
 .foot{color:var(--grey);font-size:12px;margin-top:30px}
 </style>
@@ -33,7 +33,9 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;f
 <main>
 <h1>Архив публикаций</h1>
 <p class="sub">История того, что я готовлю для Instagram* и Pinterest. Нажми «Скачать всё» или «Скопировать текст». Дату можно сказать Лии, она перенесёт карточку.</p>
+<div id="cal"></div>
 <div id="app"></div>
+<div id="stats"></div>
 <p class="foot">*Instagram принадлежит Meta, признанной в РФ экстремистской организацией.</p>
 </main>
 <div class="lb" id="lb"><div class="lbtop"><button id="lbBack">← Назад</button> <span id="lbCnt" style="color:var(--grey);margin-left:10px;font-size:14px"></span></div><div class="lbbody" id="lbBody"></div><div class="lbbot"><button class="main" id="lbSave">Сохранить в фотопленку</button><button id="lbDl">Скачать файл</button></div></div>
@@ -61,6 +63,40 @@ async function saveLb(){
   toast('Нажми и удерживай картинку, затем «Сохранить»');
 }
 document.addEventListener('DOMContentLoaded',()=>{let sx=null;const bd=$('#lbBody');bd.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});bd.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>50)stepLb(dx<0?1:-1)});document.addEventListener('keydown',e=>{if(!$('#lb').classList.contains('on'))return;if(e.key==='ArrowRight')stepLb(1);if(e.key==='ArrowLeft')stepLb(-1);if(e.key==='Escape')closeLb()});$('#lbBack').onclick=closeLb;$('#lbSave').onclick=saveLb;$('#lbDl').onclick=()=>{if(LBF&&!tgDl(LBF)){const a=document.createElement('a');a.href='files/'+LBF;a.download=LBF.split('/').pop();a.click()}}});
+
+const PC={instagram:'#e1306c',pinterest:'#e60023',momlife:'#f58529',telegram:'#2481cc',threads:'#111111'};
+const PN={instagram:'Instagram*',pinterest:'Pinterest',momlife:'mom.life',telegram:'Telegram',threads:'Threads'};
+function pkey(n){n=(n||'').toLowerCase();if(n.indexOf('pin')==0)return 'pinterest';if(n.indexOf('mom')==0)return 'momlife';if(n.indexOf('tele')==0)return 'telegram';if(n.indexOf('thr')==0)return 'threads';return 'instagram'}
+let CAL={m:new Date(),sel:null,ev:[]};
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function renderCal(){
+  const c=$('#cal'),m=CAL.m,y=m.getFullYear(),mo=m.getMonth();
+  const first=new Date(y,mo,1),off=(first.getDay()+6)%7,days=new Date(y,mo+1,0).getDate();
+  const names=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+  let h='<div class="calh"><button id="cp">‹</button><b>'+names[mo]+' '+y+'</b><button id="cn">›</button></div><div class="grid">';
+  ['пн','вт','ср','чт','пт','сб','вс'].forEach(w=>h+='<div class="wd">'+w+'</div>');
+  for(let i=0;i<off;i++)h+='<div></div>';
+  const td=iso(new Date());
+  for(let d=1;d<=days;d++){const k=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const ev=CAL.ev.filter(e=>e.date===k);const cols=[...new Set(ev.map(e=>pkey(e.platform)))];
+    h+='<div class="day'+(k===td?' today':'')+(k===CAL.sel?' sel':'')+'" data-k="'+k+'"><span class="n">'+d+'</span><div class="dots">'+cols.map(p=>'<i style="background:'+PC[p]+'"></i>').join('')+'</div></div>'}
+  h+='</div><div class="legend">'+Object.keys(PC).map(p=>'<span><i style="background:'+PC[p]+'"></i>'+PN[p]+'</span>').join('')+'</div><div class="dayinfo" id="dayinfo"></div>';
+  c.innerHTML=h;
+  $('#cp').onclick=()=>{CAL.m=new Date(y,mo-1,1);renderCal()};$('#cn').onclick=()=>{CAL.m=new Date(y,mo+1,1);renderCal()};
+  c.querySelectorAll('.day').forEach(e=>e.onclick=()=>{CAL.sel=e.dataset.k;renderCal();const ev=CAL.ev.filter(x=>x.date===CAL.sel);$('#dayinfo').textContent=fmt(CAL.sel)+(ev.length?'\n'+ev.map(x=>'• '+PN[pkey(x.platform)]+(x.title?': '+x.title:'')).join('\n'):'\nНичего не запланировано')});
+}
+function spark(vals){if(vals.length<2)return '';const w=240,h=40,mn=Math.min(...vals),mx=Math.max(...vals),r=(mx-mn)||1;const pts=vals.map((v,i)=>(i*(w/(vals.length-1))).toFixed(1)+','+(h-4-((v-mn)/r)*(h-8)).toFixed(1)).join(' ');return '<svg class="spark" width="'+w+'" height="'+h+'"><polyline fill="none" stroke="#c8a882" stroke-width="2.5" points="'+pts+'"/></svg>'}
+function renderStats(s){
+  const el=$('#stats');const en=(s&&s.entries)||[];
+  let h='<h2>Статистика</h2><div class="card">';
+  if(!en.length)h+='<p class="note">Пока пусто. Telegram и Threads я подтягиваю сама, по Instagram*, Pinterest и mom.life пришли мне цифры, я внесу.</p>';
+  const keys=[...new Set(en.map(e=>e.platform+'|'+e.metric))];
+  keys.forEach(k=>{const [p,m]=k.split('|');const L=en.filter(e=>e.platform===p&&e.metric===m).sort((a,b)=>a.date<b.date?-1:1);const last=L[L.length-1],prev=L[L.length-2];
+    const num=typeof last.value==='number';let dl='';if(prev&&num&&typeof prev.value==='number'){const d=last.value-prev.value;dl='<span class="dl '+(d>0?'up':d<0?'down':'')+'">'+(d>0?'+':'')+d+'</span>'}
+    h+='<div class="stat"><span class="tag" style="background:'+PC[pkey(p)]+'">'+(PN[pkey(p)])+'</span> '+m+'<div class="v">'+last.value+dl+'</div><div class="fb">'+fmt(last.date)+(last.note?' · '+last.note:'')+'</div>'+(num?spark(L.filter(e=>typeof e.value==='number').map(e=>e.value)):'')+'</div>'});
+  h+='</div><p class="note">Instagram*, Pinterest и mom.life: присылай цифры Лии (подписчики, переходы, обратная связь), она добавит.</p>';
+  el.innerHTML=h;
+}
 function isVid(f){return /\.(mp4|mov)$/i.test(f)}
 function fmt(d){if(!d)return null;const [y,m,dd]=d.split('-');return dd+'.'+m+'.'+y}
 async function zipAll(it){
@@ -86,7 +122,9 @@ function card(it){
     const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);d.appendChild(document.createElement('br'));d.appendChild(cb);c.appendChild(d)});
   return c;
 }
+fetch('stats.json?t='+Date.now()).then(r=>r.json()).then(renderStats).catch(()=>renderStats(null));
 fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{
+  CAL.ev=d.items.filter(i=>i.date).map(i=>({date:i.date,platform:i.platform,title:i.title})).concat((d.plan||[]).map(p=>({date:p.date,platform:p.platform,title:p.label||''})));renderCal();
   const app=$('#app');
   const groups={};d.items.forEach(i=>{(groups[i.date||'']=groups[i.date||'']||[]).push(i)});
   const keys=Object.keys(groups).sort((a,b)=>a===''?-1:b===''?1:a<b?-1:1);
