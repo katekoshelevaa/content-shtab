@@ -4,10 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Архив выкладки</title>
+<title>Архив публикаций</title>
 <style>
-:root{--bg:#faf8f3;--card:#fff;--ink:#1c1c1c;--grey:#6e6964;--acc:#c8a882;--line:#e8e2d8}
-@media (prefers-color-scheme:dark){:root{--bg:#171512;--card:#221f1b;--ink:#f3efe8;--grey:#a39d94;--line:#35302a}}
+:root{color-scheme:light;--bg:#ffffff;--card:#fff;--ink:#1c1c1c;--grey:#6e6964;--acc:#c8a882;--line:#e8e2d8}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
 main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
@@ -15,7 +14,7 @@ h1{font-size:26px;margin:8px 0 4px}
 .sub{color:var(--grey);margin:0 0 24px;font-size:14px}
 h2{font-size:15px;color:var(--grey);text-transform:uppercase;letter-spacing:.06em;margin:28px 0 10px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
-.tag{display:inline-block;background:var(--acc);color:#1c1c1c;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:600;margin-right:6px}
+.tag{display:inline-block;background:var(--acc);color:#fff;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:600;margin-right:6px}
 .card h3{margin:10px 0 4px;font-size:18px}
 .note{color:var(--grey);font-size:14px;margin:0 0 10px}
 .thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:8px 0}
@@ -32,8 +31,8 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;f
 </head>
 <body>
 <main>
-<h1>Архив выкладки</h1>
-<p class="sub">Всё готовое по датам: нажми «Скачать всё» или «Скопировать текст». Дату можно сказать Лии, она перенесёт карточку.</p>
+<h1>Архив публикаций</h1>
+<p class="sub">История того, что я готовлю для Instagram* и Pinterest. Нажми «Скачать всё» или «Скопировать текст». Дату можно сказать Лии, она перенесёт карточку.</p>
 <div id="app"></div>
 <p class="foot">*Instagram принадлежит Meta, признанной в РФ экстремистской организацией.</p>
 </main>
@@ -60,7 +59,7 @@ async function zipAll(it){
 }
 function card(it){
   const c=document.createElement('div');c.className='card';
-  c.innerHTML='<span class="tag">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
+  c.innerHTML='<span class="tag" style="background:'+(it.platform.indexOf("Pinterest")==0?"#e60023":it.platform.indexOf("Telegram")==0?"#2481cc":"#f58529")+'">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
   c.querySelector('h3').textContent=it.title;c.querySelector('.note').textContent=it.note||'';
   const th=c.querySelector('.thumbs');
   it.files.forEach(f=>{const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.preload='metadata';e.muted=true}else{e.loading='lazy'}th.appendChild(e)});

@@ -1,524 +1,82 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<base href="a-65af381c9bbed11b/">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>Контент-штаб</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Архив публикаций</title>
 <style>
-:root{
-  --bg:#EFEEE8; --surface:#F7F6F1; --card:#FFFFFF; --line:#E6E4DC; --line-2:#DAD7CD;
-  --ink:#1B1B19; --muted:#7B796F; --soft:#A9A69B;
-  --accent:#F0522B; --accent-dark:#C93E1B; --indigo:#4B3BF2;
-  --ig-bg:#FCE3EC; --ig:#C2306B; --tg-bg:#DCE7FB; --tg:#2D63C8; --vk-bg:#E6F0BA; --vk:#5A7A10;
-  --lime:#E4EFB4; --mint:#DCF2EA; --peach:#FBE1D6; --yellow:#F6EBC2;
-  --c-ig:#EE8956; --c-tg:#8FB3F5; --c-vk:#A9D98C;
-  --radius:20px; --radius-s:14px;
-  --serif:"Recoleta","Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-img{display:block;max-width:100%}
-.wrap{max-width:560px;margin:0 auto;padding:16px 16px 40px}
-/* header */
-.hello{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 18px}
-.hello h1{font-family:var(--serif);font-weight:700;font-size:26px;line-height:1.15;letter-spacing:-.01em}
-.hello p{color:var(--muted);font-size:13px;margin-top:4px}
-.logo{flex:none;width:44px;height:44px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;box-shadow:0 2px 0 var(--line-2)}
-.logo svg{width:22px;height:22px}
-/* summary chips */
-.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
-.chip{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-s);padding:10px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 0 var(--line-2);min-width:0}
-.chip i{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:13px}
-.chip b{display:block;font-size:16px;line-height:1}
-.chip span{display:block;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* sections */
-section{margin-bottom:26px}
-.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
-.sec-head h2{font-family:var(--serif);font-weight:700;font-size:21px;letter-spacing:-.01em}
-.sec-head .link{color:var(--accent);font-weight:600;font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
-.empty{background:var(--surface);border:1px dashed var(--line-2);border-radius:var(--radius);padding:18px;color:var(--muted);text-align:center;font-size:14px}
-/* tags & buttons */
-.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
-.pf-instagram{background:var(--ig-bg);color:var(--ig)}
-.pf-telegram{background:var(--tg-bg);color:var(--tg)}
-.pf-threads,.pf-momlife,.pf-vk{background:var(--vk-bg);color:var(--vk)}
-.tag-outline{border:1px solid var(--ink);color:var(--ink);background:var(--card)}
-.tag-warn{background:var(--yellow);color:#8A6A00}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:0 16px;border-radius:999px;background:var(--card);border:1px solid var(--line-2);box-shadow:0 3px 0 var(--line-2);font-weight:600;font-size:14px;transition:transform .08s,box-shadow .08s}
-.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line-2)}
-.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 0 var(--accent-dark)}
-.btn-primary:active{box-shadow:0 1px 0 var(--accent-dark)}
-.btn-wide{width:100%}
-.btn-sm{min-height:34px;padding:0 13px;font-size:13px}
-/* media + placeholders */
-.media{position:relative;overflow:hidden;background:var(--lime)}
-.media img{width:100%;height:100%;object-fit:cover}
-.ph{width:100%;height:100%;display:grid;place-items:center;overflow:hidden;text-align:center;padding:2px;font-weight:600;font-size:13px;color:var(--muted);background:repeating-linear-gradient(135deg,var(--surface) 0 10px,var(--bg) 10px 20px)}
-.time-badge{position:absolute;top:10px;left:10px;background:var(--card);border-radius:8px;padding:4px 8px;font-size:12px;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-/* today */
-.today-list{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
-.post{padding:8px;overflow:hidden}
-.post .media{border-radius:var(--radius-s);aspect-ratio:16/10}
-.post-body{padding:12px 6px 6px}
-.post-text{margin:10px 0 14px;font-size:14.5px;cursor:pointer;white-space:pre-line}
-.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.more{color:var(--muted);font-size:12px;margin:-8px 0 12px;display:block}
-/* queue */
-.queue{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
-.qitem{padding:12px}
-.qtop{display:flex;gap:12px}
-.qtop .media{flex:none;width:64px;height:64px;border-radius:12px}
-.qmeta{min-width:0;flex:1}
-.qmeta .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px}
-.qdate{font-size:12px;color:var(--muted)}
-.qmeta .post-text{margin:0;font-size:14px}
-.note{margin-top:10px;background:var(--yellow);border-radius:12px;padding:9px 11px;font-size:13px;color:#5C4700}
-.note b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;color:#8A6A00}
-.qactions{display:flex;gap:8px;margin-top:12px}
-.qactions .btn{flex:1}
-/* week */
-.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
-.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 2px 9px;text-align:center;box-shadow:0 2px 0 var(--line-2);min-width:0}
-.day .wd{font-size:11px;color:var(--muted)}
-.day .num{font-family:var(--serif);font-weight:700;font-size:19px;line-height:1.2}
-.day .marks{display:flex;justify-content:center;align-items:center;gap:2px;height:14px;margin-top:3px;flex-wrap:wrap}
-.day .cnt{font-size:10px;color:var(--muted);margin-top:2px}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--soft)}
-.chk{width:13px;height:13px;border-radius:50%;background:#7CC46A;display:grid;place-items:center}
-.chk svg{width:8px;height:8px}
-.day.is-today{background:var(--indigo);border-color:var(--indigo);box-shadow:0 2px 0 #2F22B8;color:#fff}
-.day.is-today .wd,.day.is-today .cnt{color:rgba(255,255,255,.75)}
-.day.is-today .dot{background:rgba(255,255,255,.7)}
-.day.is-sel:not(.is-today){border-color:var(--ink)}
-.daylist{margin-top:10px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
-.drow{display:flex;align-items:center;gap:10px;min-width:0;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-s);padding:8px}
-.drow .media{flex:none;width:44px;height:44px;border-radius:10px}
-.drow .t{flex:1;min-width:0;font-size:13px}
-.drow .t div{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
-.drow .t small{color:var(--muted);font-size:11px}
-.st{font-size:11px;font-weight:600;padding:3px 8px;border-radius:999px;white-space:nowrap}
-.st-published{background:#DDF1D6;color:#3E7A2E}.st-approved{background:var(--tg-bg);color:var(--tg)}
-.st-pending{background:var(--surface);color:var(--muted);border:1px solid var(--line)}.st-revision{background:var(--yellow);color:#8A6A00}
-.drow .ph,.qtop .ph,.rrow .ph,.idea .ph,.top .ph{font-size:12px;line-height:1.1;overflow-wrap:anywhere}
-.drow .st{flex:none}
-/* ideas */
-.ideas{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
-.idea{display:flex;align-items:center;gap:12px;padding:10px 12px}
-.idea .ic{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--peach);overflow:hidden}
-.idea .ic img{width:100%;height:100%;object-fit:cover}
-.idea .ic svg{width:20px;height:20px}
-.idea .t{flex:1;min-width:0;font-size:14px}
-.idea .t small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
-/* results */
-.res{padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:24px}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-.tile{background:var(--card);border-radius:var(--radius-s);padding:12px 6px;text-align:center;border:1px solid var(--line)}
-.tile i{display:block;width:22px;height:22px;margin:0 auto 6px}
-.tile b{display:block;font-size:20px;line-height:1.1}
-.tile span{font-size:11px;color:var(--muted)}
-.res-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px}
-.res-card h3{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.top{display:flex;gap:12px;align-items:center}
-.top .media{flex:none;width:76px;height:76px;border-radius:14px}
-.top .big{font-size:26px;font-weight:700;line-height:1}
-.top .lbl{font-size:12px;color:var(--muted)}
-.top .t{min-width:0;flex:1}
-.top .snip{font-size:13px;margin-top:6px}
-.badge-good{background:var(--yellow);border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#6B5200;white-space:nowrap}
-.donut-wrap{display:flex;flex-direction:column;align-items:center}
-.donut{width:180px;height:180px}
-.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-top:8px;font-size:12px}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:9px;height:9px;border-radius:50%}
-.rrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
-.rrow:first-of-type{border-top:0}
-.rrow .media{flex:none;width:40px;height:40px;border-radius:10px}
-.rrow .t{flex:1;min-width:0;font-size:12px;color:var(--muted)}
-.rrow .t b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink);font-size:13px;font-weight:600}
-.rrow .m{display:flex;gap:10px;font-size:12px;text-align:right}
-.rrow .m div b{display:block;font-size:13px}
-.rrow .m div small{color:var(--muted);font-size:10px}
-.res-upd{text-align:center;font-size:12px;color:var(--muted);margin-top:4px}
-/* footer */
-.reset{display:block;margin:12px auto 0;color:var(--soft);font-size:12px;text-decoration:underline}
-/* states */
-.state{min-height:70vh;display:grid;place-items:center;text-align:center;padding:20px}
-.state h2{font-family:var(--serif);font-size:22px;margin:14px 0 6px}
-.state p{color:var(--muted);font-size:14px;margin-bottom:18px}
-.spinner{width:34px;height:34px;border-radius:50%;border:3px solid var(--line-2);border-top-color:var(--accent);animation:spin .8s linear infinite;margin:0 auto}
-@keyframes spin{to{transform:rotate(360deg)}}
-/* sheet */
-.overlay{position:fixed;inset:0;background:rgba(27,27,25,.4);display:flex;align-items:flex-end;justify-content:center;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
-.overlay.open{opacity:1;pointer-events:auto}
-.sheet{width:100%;max-width:560px;background:var(--surface);border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));transform:translateY(20px);transition:transform .2s}
-.overlay.open .sheet{transform:none}
-.sheet h3{font-family:var(--serif);font-size:20px;margin-bottom:12px}
-.sheet textarea{width:100%;min-height:110px;resize:vertical;border:1px solid var(--line-2);border-radius:var(--radius-s);padding:12px;font:inherit;background:var(--card);color:var(--ink);outline:none}
-.sheet textarea:focus{border-color:var(--ink)}
-.sheet .hint{font-size:12px;color:var(--muted);margin:8px 0 14px}
-.sheet .actions{display:flex;gap:8px}
-.sheet .actions .btn{flex:1}
-.file-row{display:flex;align-items:center;gap:10px;margin:10px 0 14px}
-.file-row label{cursor:pointer}
-.file-row input{display:none}
-.file-prev{width:48px;height:48px;border-radius:10px;object-fit:cover;display:none}
-/* viewer */
-.viewer{position:fixed;inset:0;background:#111;z-index:30;display:none;flex-direction:column;color:#fff}
-.viewer.open{display:flex}
-.viewer .img{flex:1;display:grid;place-items:center;padding:16px;min-height:0}
-.viewer .img img{max-height:100%;max-width:100%;object-fit:contain;border-radius:12px;-webkit-touch-callout:default;user-select:auto}
-.viewer .img .ph{border-radius:12px;max-width:360px;aspect-ratio:1;color:#ccc;background:#222}
-.viewer .bar{padding:14px 16px calc(16px + env(safe-area-inset-bottom));text-align:center}
-.viewer .bar p{font-size:13px;color:#bbb;margin-bottom:12px}
-.viewer .fallback-text{background:#1E1E1E;border-radius:12px;padding:12px;font-size:13px;text-align:left;margin-bottom:12px;max-height:30vh;overflow:auto;user-select:text;-webkit-user-select:text;white-space:pre-line}
-/* toast */
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:500;opacity:0;transition:all .2s;z-index:40;max-width:calc(100% - 32px);text-align:center}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-@media (max-width:360px){.hello h1{font-size:23px}.day .num{font-size:17px}.chip i{display:none}}
+:root{color-scheme:light;--bg:#ffffff;--card:#fff;--ink:#1c1c1c;--grey:#6e6964;--acc:#c8a882;--line:#e8e2d8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:26px;margin:8px 0 4px}
+.sub{color:var(--grey);margin:0 0 24px;font-size:14px}
+h2{font-size:15px;color:var(--grey);text-transform:uppercase;letter-spacing:.06em;margin:28px 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+.tag{display:inline-block;background:var(--acc);color:#fff;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:600;margin-right:6px}
+.card h3{margin:10px 0 4px;font-size:18px}
+.note{color:var(--grey);font-size:14px;margin:0 0 10px}
+.thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin:8px 0}
+.thumbs img,.thumbs video{height:130px;border-radius:10px;flex:0 0 auto;border:1px solid var(--line)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+button,a.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:20px;padding:8px 14px;cursor:pointer;text-decoration:none}
+button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;font-weight:600}
+.txt{border:1px dashed var(--line);border-radius:12px;padding:10px;margin-top:10px;font-size:14px;white-space:pre-wrap}
+.txt b{display:block;font-size:13px;color:var(--grey);margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1c1c1c;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
+.foot{color:var(--grey);font-size:12px;margin-top:30px}
 </style>
 </head>
 <body>
-<div class="wrap" id="app"></div>
-
-<div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
-<div class="viewer" id="viewer"></div>
+<main>
+<h1>Архив публикаций</h1>
+<p class="sub">История того, что я готовлю для Instagram* и Pinterest. Нажми «Скачать всё» или «Скопировать текст». Дату можно сказать Лии, она перенесёт карточку.</p>
+<div id="app"></div>
+<p class="foot">*Instagram принадлежит Meta, признанной в РФ экстремистской организацией.</p>
+</main>
 <div class="toast" id="toast"></div>
-
-<script id="seed-data" type="application/json">{"meta": {"weekStart": "2026-10-26", "updatedAt": "2026-10-28T08:15"}, "posts": [{"id": "p1", "date": "2026-10-29", "time": "12:00", "platform": "momlife", "photo": "photos/none.png", "text": "Мамочки, привет! Я Катя, мама двоих. Дочке почти 2 года, и мои рабочие часы это её дневной сон с 14 до 17. Что у меня помогает не разрываться ✨\n\nОбед готовлю утром, до 9, чтобы в сон Миры не вставать к плите. Задачи на день делю на блоки, до 9, до 13 и до 17, так видно, что реально успею. А выходные стараюсь не нагружать работой, это время семьи ❤️\n\nА как вы совмещаете, работаете в сон малыша или когда все уснули?)", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": "Фото: ты с Мирой у синего вагона. Без ссылок."}, {"id": "p2", "date": "2026-10-28", "time": "14:00", "platform": "threads", "photo": "photos/none.png", "text": "Вопрос к тем, кто работает онлайн. Что у вас сейчас съедает больше всего времени, контент, переписки или отчёты? У меня точно контент 🙈", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": ""}, {"id": "p5", "date": "2026-10-28", "time": "18:00", "platform": "telegram", "photo": "photos/none.png", "text": "Привет! Я давно не писала в канале, последний пост был в мае 🙈 [одна твоя фраза, почему так вышло]. Сейчас я возвращаюсь и хочу, чтобы здесь была польза, а не просто отчёт о моём дне ✨\n\nБуду писать про удалёнку, систему дня и то, как это совмещать с семьёй, и показывать закулисье запусков изнутри ❤️ Оставайся в канале, если откликается)", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": "Пост возвращения. Вставить свою фразу в скобках."}, {"id": "p6", "date": "2026-10-29", "time": "11:00", "platform": "instagram", "photo": "photos/none.png", "text": "У меня тоже много задач, а в сутках те же 24 часа ✨ Расскажу, как управляю днём по системе трёх блоков, до 9, до 13 и до 17. Пока дочка спит, у меня три тихих часа, и я заранее знаю, что в них поместится. А выходные оставляю семье ❤️\n\nПро удалёнку и систему дня я пишу в канале «Катя о жизни», он в шапке профиля.\n\n#удалёнка #мамаудалёнка #планированиедня #системадня", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": "Карусель 7 слайдов отправлена файлами в Telegram."}, {"id": "p7", "date": "2026-10-29", "time": "18:00", "platform": "threads", "photo": "photos/none.png", "text": "Нарезка из карусели, текст подготовлю.", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": "[текст нарезки появится здесь]"}, {"id": "p8", "date": "2026-10-30", "time": "12:00", "platform": "telegram", "photo": "photos/none.png", "text": "Три ошибки, из-за которых день по блокам не складывается ✨\n\nПервая, в блок кладут слишком много. Три задачи на блок это потолок, остальное честно переносится на завтра. Вторая, нет одного главного дела. Если всё важное, не получается ничего, поэтому я выбираю одно и ставлю его в самое спокойное окно. Третья, план не учитывает реальный режим дня, например сон ребёнка или силы к вечеру ❤️\n\n[одна твоя фраза, как это было у тебя]", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": "Вставить свою фразу в скобках."}, {"id": "p9", "date": "2026-10-29", "time": "17:00", "platform": "instagram", "photo": "photos/none.png", "text": "Сториз, 3 штуки. Сценарий по запросу.", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": ""}, {"id": "p10", "date": "2026-10-30", "time": "19:00", "platform": "telegram", "photo": "photos/none.png", "text": "Итоги недели и приглашение на мини-разбор. Нужна цифра подписчиков и мест.", "status": "approved", "revisionNote": "", "publishedAt": null, "stats": {"reach": 0, "likes": 0, "saves": 0, "comments": 0}, "note": "После твоей цифры."}], "ideas": [{"id": "i1", "type": "text", "content": "Как я перестала держать всё в голове (ватман, теперь всё в одном месте)", "createdAt": "2026-10-25"}, {"id": "i2", "type": "text", "content": "Поездка к бабушке, мечта приехать на неделю с ночёвкой", "createdAt": "2026-10-25"}, {"id": "i3", "type": "text", "content": "Задача, которая далась легко, как тёплый итог недели", "createdAt": "2026-10-25"}, {"id": "i4", "type": "text", "content": "Обычный спокойный день дома без идеального контента (Threads)", "createdAt": "2026-10-26"}], "weeklyResults": {"date": "2026-10-26", "followers": {"total": 120, "delta": 0}, "topPostId": "p3", "topMetric": {"name": "охват", "value": 0}}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
-(function(){
-  'use strict';
-  var LS_KEY = 'kontent-shtab-v1';
-  var PF = {
-    instagram:{name:'Instagram', color:'var(--c-ig)'},
-    telegram:{name:'Telegram', color:'var(--c-tg)'},
-    threads:{name:'Threads', color:'var(--c-vk)'},momlife:{name:'mom.life', color:'var(--c-vk)'}
-  };
-  var MONTHS = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-  var WD = ['вс','пн','вт','ср','чт','пт','сб'];
-  var STATUS = {published:'выложено', approved:'утверждён', pending:'ждёт решения', revision:'на доработке'};
-  var CHECK = '<svg viewBox="0 0 10 10"><path d="M2 5.2l2 2L8 3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-  var tg = null;
-  try { if (window.Telegram && window.Telegram.WebApp) { tg = window.Telegram.WebApp; tg.ready(); tg.expand(); try{ tg.setHeaderColor('#EFEEE8'); tg.setBackgroundColor('#EFEEE8'); }catch(e){} } } catch(e){ tg = null; }
-
-  var app = document.getElementById('app');
-  var DATA = null;
-  var STATE = {posts:{}, ideas:[]};
-  var selectedDay = null;
-  var expanded = {};
-
-  /* ---------- utils ---------- */
-  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  function pad(n){ return (n<10?'0':'')+n; }
-  function ymd(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
-  function parseD(s){ var p=String(s).split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
-  function addDays(d,n){ var x=new Date(d); x.setDate(x.getDate()+n); return x; }
-  function nice(s){ var d=parseD(s); return d.getDate()+' '+MONTHS[d.getMonth()]; }
-  function niceWd(s){ var d=parseD(s); return WD[d.getDay()]+', '+d.getDate()+' '+MONTHS[d.getMonth()]; }
-  function nowIso(){ var d=new Date(); return ymd(d)+'T'+pad(d.getHours())+':'+pad(d.getMinutes()); }
-  function fmt(n){ return Number(n||0).toLocaleString('ru-RU'); }
-  function monday(d){ var x=new Date(d.getFullYear(), d.getMonth(), d.getDate()); var wd=(x.getDay()+6)%7; return addDays(x,-wd); }
-  function pfName(p){ return (PF[p]||{name:p||'площадка'}).name; }
-  function plural(n, a, b, c){ var m=n%10, h=n%100; if(m===1&&h!==11) return a; if(m>=2&&m<=4&&(h<12||h>14)) return b; return c; }
-
-  function haptic(type){ try{ if(tg && tg.HapticFeedback){ if(type==='light') tg.HapticFeedback.impactOccurred('light'); else tg.HapticFeedback.notificationOccurred(type); } }catch(e){} }
-
-  var toastTimer;
-  function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(function(){ t.classList.remove('show'); }, 2200); }
-
-  /* ---------- state ---------- */
-  function loadState(){ try{ var raw=localStorage.getItem(LS_KEY); if(raw){ var s=JSON.parse(raw); STATE={posts:s.posts||{}, ideas:Array.isArray(s.ideas)?s.ideas:[]}; } }catch(e){ STATE={posts:{}, ideas:[]}; } }
-  function saveState(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); return true; }catch(e){ return false; } }
-  function allPosts(){ return DATA.posts.map(function(p){ var o={}; for(var k in p) o[k]=p[k]; var ov=STATE.posts[p.id]||{}; for(var j in ov) o[j]=ov[j]; return o; }); }
-  function allIdeas(){ return STATE.ideas.concat(DATA.ideas).sort(function(a,b){ return String(b.createdAt).localeCompare(String(a.createdAt)); }); }
-  function setPost(id, patch){ var cur=STATE.posts[id]||{}; for(var k in patch) cur[k]=patch[k]; STATE.posts[id]=cur; if(!saveState()) toast('изменения не сохранятся после перезагрузки'); }
-  function byTime(a,b){ return (a.date+a.time).localeCompare(b.date+b.time); }
-
-  /* ---------- pieces ---------- */
-  function media(p, cls){
-    var src = p.photo || '';
-    var inner = src ? '<img src="'+esc(src)+'" alt="" loading="lazy" data-pf="'+esc(pfName(p.platform))+'" onerror="window.__imgFail(this)">' : '<div class="ph">'+esc(pfName(p.platform))+'</div>';
-    return '<div class="media '+(cls||'')+'">'+inner+'</div>';
-  }
-  window.__imgFail = function(img){ var d=document.createElement('div'); d.className='ph'; var full=img.getAttribute('data-pf')||'фото'; var short={'Instagram':'IG','Telegram':'TG','VK':'VK','Threads':'TH','mom.life':'ML'}[full]; var w=img.parentNode?img.parentNode.offsetWidth:0; d.textContent=(short && w && w<90)?short:full; if(img.parentNode) img.parentNode.replaceChild(d, img); };
-  function tag(p){ return '<span class="tag pf-'+esc(p.platform)+'">'+esc(pfName(p.platform))+'</span>'+(p.revised?' <span class="tag" style="background:#DDF2DD;color:#2E6B2E">исправлено</span>':''); }
-  function text(p){
-    var open = !!expanded[p.id];
-    return '<p class="post-text '+(open?'':'clamp')+'" data-action="toggle" data-id="'+esc(p.id)+'">'+esc(p.text)+'</p>';
-  }
-
-  /* ---------- sections ---------- */
-  function header(posts, weekDates){
-    var h=new Date().getHours();
-    var greet = h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер';
-    var name = 'Екатерина';
-    try{ if(tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) name = tg.initDataUnsafe.user.first_name; }catch(e){}
-    var inWeek = posts.filter(function(p){ return weekDates.indexOf(p.date)>-1; });
-    var pub = inWeek.filter(function(p){ return p.status==='published'; }).length;
-    var wait = posts.filter(function(p){ return p.status==='pending'||p.status==='revision'; }).length;
-    var plan = inWeek.filter(function(p){ return p.status==='approved'; }).length;
-    return ''+
-    '<header class="hello"><div><h1>'+greet+', '+esc(name)+' 👋</h1><p>Твоя неделя контента в одном экране</p></div>'+
-      '<div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c1 3 1 5 0 8M7 6c1.5 2.5 2.5 4.5 3 7M17 6c-1.5 2.5-2.5 4.5-3 7M3 11c3 1 5.5 2 7.5 3.5M21 11c-3 1-5.5 2-7.5 3.5M5 18h14" fill="none" stroke="#F0522B" stroke-width="2.2" stroke-linecap="round"/></svg></div></header>'+
-    '<div class="chips">'+
-      '<div class="chip"><i style="background:#DDF1D6;color:#3E7A2E">✓</i><div><b>'+pub+'</b><span>выложено</span></div></div>'+
-      
-      '<div class="chip"><i style="background:var(--tg-bg);color:var(--tg)">→</i><div><b>'+plan+'</b><span>в плане</span></div></div>'+
-    '</div>';
-  }
-
-  function secToday(posts, today){
-    var list = posts.filter(function(p){ return p.date===today && p.status==='approved'; }).sort(byTime);
-    var body = list.length ? '<div class="today-list">'+list.map(function(p){
-      return '<article class="card post">'+
-        '<div class="media">'+mediaInner(p)+'<span class="time-badge">в '+esc(p.time)+'</span></div>'+
-        '<div class="post-body">'+tag(p)+text(p)+
-        '<div class="qactions"><button class="btn" data-action="copyonly" data-id="'+esc(p.id)+'">копировать</button><button class="btn btn-primary" data-action="markpub" data-id="'+esc(p.id)+'">выложено</button></div></div></article>';
-    }).join('')+'</div>' : '<div class="empty">На сегодня всё выложено. Можно выдохнуть.</div>';
-    return '<section><div class="sec-head"><h2>Сегодня, '+esc(nice(today))+'</h2></div>'+body+'</section>';
-  }
-  function mediaInner(p){ return p.photo ? '<img src="'+esc(p.photo)+'" alt="" loading="lazy" data-pf="'+esc(pfName(p.platform))+'" onerror="window.__imgFail(this)">' : '<div class="ph">'+esc(pfName(p.platform))+'</div>'; }
-
-  function secQueue(posts){ return '';
-    var list = posts.filter(function(p){ return p.status==='pending'||p.status==='revision'; }).sort(byTime);
-    var body = list.length ? '<div class="queue">'+list.map(function(p){
-      var rev = p.status==='revision';
-      return '<article class="card qitem"><div class="qtop">'+media(p)+
-        '<div class="qmeta"><div class="row">'+tag(p)+(rev?'<span class="tag tag-warn">на доработке</span>':'')+'<span class="qdate">'+esc(niceWd(p.date))+', '+esc(p.time)+'</span></div>'+text(p)+'</div></div>'+
-        (rev && p.revisionNote ? '<div class="note"><b>что изменить</b>'+esc(p.revisionNote)+'</div>' : '')+
-        '<div class="qactions"><button class="btn" data-action="revise" data-id="'+esc(p.id)+'">поправить</button>'+
-        '<button class="btn btn-primary" data-action="approve" data-id="'+esc(p.id)+'">утверждаю</button></div></article>';
-    }).join('')+'</div>' : '<div class="empty">Все тексты разобраны — новых решений не ждёт ничего.</div>';
-    return '<section><div class="sec-head"><h2>На утверждение</h2>'+(list.length?'<span class="qdate">'+list.length+' '+plural(list.length,'пост','поста','постов')+'</span>':'')+'</div>'+body+'</section>';
-  }
-
-  function secWeek(posts, today, weekDates){
-    var days = weekDates.map(function(ds){
-      var dp = posts.filter(function(p){ return p.date===ds; });
-      var pub = dp.filter(function(p){ return p.status==='published'; }).length;
-      var planned = dp.length - pub;
-      var marks = '';
-      if(pub) marks += '<span class="chk" title="выложено">'+CHECK+'</span>';
-      for(var i=0;i<Math.min(planned,3);i++) marks += '<span class="dot" title="запланировано"></span>';
-      var d=parseD(ds);
-      var cls = 'day'+(ds===today?' is-today':'')+(ds===selectedDay?' is-sel':'');
-      return '<button class="'+cls+'" data-action="day" data-date="'+ds+'"><div class="wd">'+WD[d.getDay()]+'</div><div class="num">'+d.getDate()+'</div><div class="marks">'+marks+'</div><div class="cnt">'+(dp.length?dp.length+' '+plural(dp.length,'пост','поста','постов'):'—')+'</div></button>';
-    }).join('');
-    var list = '';
-    if(selectedDay){
-      var dp = posts.filter(function(p){ return p.date===selectedDay; }).sort(byTime);
-      list = '<div class="daylist">'+(dp.length ? dp.map(function(p){
-        return '<div class="drow">'+media(p)+'<div class="t"><div>'+esc(p.text)+'</div><small>'+esc(pfName(p.platform))+' · '+esc(p.time)+'</small></div><span class="st st-'+esc(p.status)+'">'+esc(STATUS[p.status]||p.status)+'</span></div>';
-      }).join('') : '<div class="empty">На '+esc(nice(selectedDay))+' постов нет.</div>')+'</div>';
-    }
-    return '<section><div class="sec-head"><h2>Неделя</h2><span class="qdate">'+esc(nice(weekDates[0]))+' — '+esc(nice(weekDates[6]))+'</span></div><div class="week">'+days+'</div>'+list+'</section>';
-  }
-
-  function secIdeas(){
-    var list = allIdeas().slice(0,5);
-    var bulb = '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z" fill="none" stroke="#C93E1B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    var body = list.length ? '<div class="ideas">'+list.map(function(i){
-      var isPhoto = i.type==='photo';
-      var ic = isPhoto ? '<div class="ic"><img src="'+esc(i.content)+'" alt="" data-pf="фото" onerror="window.__imgFail(this)"></div>' : '<div class="ic">'+bulb+'</div>';
-      var label = isPhoto ? (i.note ? esc(i.note) : 'Фото для контента') : esc(i.content);
-      return '<div class="card idea">'+ic+'<div class="t">'+label+'<small>'+esc(nice(i.createdAt))+'</small></div></div>';
-    }).join('')+'</div>' : '<div class="empty">Идей пока нет — добавь первую.</div>';
-    return '<section><div class="sec-head"><h2>Идеи и фото</h2><button class="link" data-action="idea">+ добавить идею</button></div>'+body+'</section>';
-  }
-
-  function donut(segs, total){
-    var r=66, c=2*Math.PI*r, sw=22, gap=sw+8, off=0, out='';
-    var many = segs.filter(function(s){ return s.value>0; }).length > 1;
-    segs.forEach(function(s){
-      if(!s.value) return;
-      var share = s.value/total*c;
-      var len = many ? Math.max(0.5, share-gap) : c;
-      out += '<circle r="'+r+'" cx="90" cy="90" fill="none" stroke="'+s.color+'" stroke-width="'+sw+'" stroke-linecap="'+(many?'round':'butt')+'" stroke-dasharray="'+len.toFixed(1)+' '+(c-len).toFixed(1)+'" stroke-dashoffset="'+(-(off+(many?gap/2:0))).toFixed(1)+'" transform="rotate(-90 90 90)"/>';
-      off += share;
-    });
-    return '<svg class="donut" viewBox="0 0 180 180">'+out+'<text x="90" y="82" text-anchor="middle" font-size="12" fill="#7B796F">охват</text><text x="90" y="108" text-anchor="middle" font-size="26" font-weight="700" font-family="Georgia,serif" fill="#1B1B19">'+fmt(total)+'</text></svg>';
-  }
-
-  function secResults(posts){
-    var wr = DATA.weeklyResults;
-    if(!wr || !wr.date) return '<section><div class="sec-head"><h2>Итоги</h2></div><div class="empty">Итоги появятся в пятницу.</div></section>';
-    var end = wr.date, start = ymd(addDays(parseD(wr.date), -6));
-    var week = posts.filter(function(p){ return p.status==='published' && p.date>=start && p.date<=end; });
-    var top = posts.filter(function(p){ return p.id===wr.topPostId; })[0];
-    var f = wr.followers||{total:0,delta:0};
-    var tiles = '<div class="tiles">'+
-      '<div class="tile"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#F0522B"/><path d="M4 21c1-4.5 4.5-7 8-7s7 2.5 8 7z" fill="#F0522B"/></svg></i><b>'+fmt(f.total)+'</b><span>подписчики</span></div>'+
-      '<div class="tile"><i><svg viewBox="0 0 24 24"><path d="M4 17l6-6 4 4 6-7" fill="none" stroke="#7CC46A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></i><b>'+(f.delta>=0?'+':'')+fmt(f.delta)+'</b><span>за неделю</span></div>'+
-      '<div class="tile"><i><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#4B3BF2"/><path d="M8.5 12.2l2.3 2.3 4.7-4.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i><b>'+week.length+'</b><span>'+plural(week.length,'пост','поста','постов')+'</span></div>'+
-    '</div>';
-    var topHtml = '';
-    if(top){
-      var tm = wr.topMetric||{name:'охват', value:(top.stats||{}).reach};
-      topHtml = '<div class="res-card"><h3>Лучший пост недели <span class="badge-good">👍 зашло лучше всего</span></h3><div class="top">'+media(top)+'<div class="t"><div class="big">'+fmt(tm.value)+'</div><div class="lbl">'+esc(tm.name)+' · '+esc(pfName(top.platform))+'</div><div class="snip clamp">'+esc(top.text)+'</div></div></div></div>';
-    }
-    var donutHtml = '';
-    var totals = {}; week.forEach(function(p){ totals[p.platform]=(totals[p.platform]||0)+((p.stats||{}).reach||0); });
-    var segs = Object.keys(totals).map(function(k){ return {key:k, value:totals[k], color:(PF[k]||{color:'#ccc'}).color}; });
-    var sum = segs.reduce(function(a,s){ return a+s.value; },0);
-    if(sum>0){
-      donutHtml = '<div class="res-card"><h3>Охват по площадкам</h3><div class="donut-wrap">'+donut(segs,sum)+'<div class="legend">'+segs.map(function(s){ return '<span><i style="background:'+s.color+'"></i>'+esc(pfName(s.key))+' '+Math.round(s.value/sum*100)+'%</span>'; }).join('')+'</div></div></div>';
-    }
-    var others = week.filter(function(p){ return !top || p.id!==top.id; }).sort(function(a,b){ return ((b.stats||{}).reach||0)-((a.stats||{}).reach||0); }).slice(0,3);
-    var rows = others.length ? '<div class="res-card"><h3>Остальные посты</h3>'+others.map(function(p){
-      var s=p.stats||{};
-      return '<div class="rrow">'+media(p)+'<div class="t"><b>'+esc(p.text)+'</b>'+esc(pfName(p.platform))+' · '+esc(nice(p.date))+'</div><div class="m"><div><b>'+fmt(s.reach)+'</b><small>охват</small></div><div><b>'+fmt(s.saves)+'</b><small>сохр.</small></div></div></div>';
-    }).join('')+'</div>' : '';
-    return '<section><div class="sec-head"><h2>Итоги</h2></div><div class="res">'+tiles+topHtml+donutHtml+rows+'<div class="res-upd">обновлено в пятницу, '+esc(nice(wr.date))+'</div></div></section>';
-  }
-
-  /* ---------- render ---------- */
-  function render(){
-    var posts = allPosts();
-    var now = new Date(), today = ymd(now);
-    var mon = monday(now);
-    var weekDates = []; for(var i=0;i<7;i++) weekDates.push(ymd(addDays(mon,i)));
-    app.innerHTML = header(posts, weekDates) + secToday(posts, today) + secQueue(posts) + secWeek(posts, today, weekDates) + secIdeas() + secResults(posts) +
-      '<button class="reset" data-action="reset">сбросить изменения</button>';
-  }
-
-  function showLoading(){ app.innerHTML = '<div class="state"><div><div class="spinner"></div><p style="margin-top:14px">Собираю твою неделю…</p></div></div>'; }
-  function showError(){ app.innerHTML = '<div class="state"><div><div style="font-size:40px">🗂️</div><h2>Не получилось загрузить контент</h2><p>Проверь соединение и попробуй ещё раз.</p><button class="btn btn-primary" data-action="retry">попробовать снова</button></div></div>'; }
-
-  function load(){
-    showLoading();
-    setTimeout(function(){
-      try{
-        var d = JSON.parse(document.getElementById('seed-data').textContent);
-        if(!d || !Array.isArray(d.posts)) throw new Error('bad data');
-        d.ideas = Array.isArray(d.ideas) ? d.ideas : [];
-        DATA = d; loadState(); render();
-      }catch(e){ showError(); }
-    }, 400);
-  }
-
-  /* ---------- sheets ---------- */
-  var overlay = document.getElementById('overlay'), sheet = document.getElementById('sheet');
-  function openSheet(html){ sheet.innerHTML = html; overlay.classList.add('open'); var ta=sheet.querySelector('textarea'); if(ta) setTimeout(function(){ ta.focus(); }, 150); }
-  function closeSheet(){ overlay.classList.remove('open'); }
-  overlay.addEventListener('click', function(e){ if(e.target===overlay) closeSheet(); });
-
-  function openRevise(id){
-    var p = allPosts().filter(function(x){ return x.id===id; })[0]; if(!p) return;
-    openSheet('<h3>Что поправить?</h3><textarea id="rev-text" placeholder="Например: короче, добавить личную историю, закончить вопросом">'+esc(p.revisionNote||'')+'</textarea>'+
-      '<p class="hint">Пост останется в «На утверждение» с меткой «на доработке».</p>'+
-      '<div class="actions"><button class="btn" data-sheet="close">отмена</button><button class="btn btn-primary" data-sheet="save-rev" data-id="'+esc(id)+'">сохранить</button></div>');
-  }
-  var ideaPhoto = null;
-  function openIdea(){
-    ideaPhoto = null;
-    openSheet('<h3>Новая идея</h3><textarea id="idea-text" placeholder="Мысль, тема поста, заметка к фото"></textarea>'+
-      '<div class="file-row"><label class="btn btn-sm">📷 добавить фото<input type="file" accept="image/*" id="idea-file"></label><img class="file-prev" id="idea-prev" alt=""></div>'+
-      '<div class="actions"><button class="btn" data-sheet="close">отмена</button><button class="btn btn-primary" data-sheet="save-idea">сохранить</button></div>');
-    document.getElementById('idea-file').addEventListener('change', function(e){
-      var f = e.target.files && e.target.files[0]; if(!f) return;
-      readImage(f).then(function(url){ ideaPhoto=url; var pr=document.getElementById('idea-prev'); pr.src=url; pr.style.display='block'; }).catch(function(){ toast('не получилось прочитать фото'); });
-    });
-  }
-  function readImage(file){
-    return new Promise(function(res, rej){
-      var r = new FileReader();
-      r.onload = function(){ var img=new Image(); img.onload=function(){ var max=900, k=Math.min(1, max/Math.max(img.width,img.height)); var c=document.createElement('canvas'); c.width=Math.round(img.width*k); c.height=Math.round(img.height*k); c.getContext('2d').drawImage(img,0,0,c.width,c.height); res(c.toDataURL('image/jpeg',0.8)); }; img.onerror=rej; img.src=r.result; };
-      r.onerror = rej; r.readAsDataURL(file);
-    });
-  }
-  sheet.addEventListener('click', function(e){
-    var b = e.target.closest('[data-sheet]'); if(!b) return;
-    var a = b.getAttribute('data-sheet');
-    if(a==='close') return closeSheet();
-    if(a==='save-rev'){
-      var note = document.getElementById('rev-text').value.trim();
-      if(!note){ toast('напиши, что изменить'); return; }
-      setPost(b.getAttribute('data-id'), {status:'revision', revisionNote:note});
-      haptic('light'); closeSheet(); render(); toast('отправлено на доработку');
-    }
-    if(a==='save-idea'){
-      var t = document.getElementById('idea-text').value.trim();
-      if(!t && !ideaPhoto){ toast('добавь текст или фото'); return; }
-      var idea = ideaPhoto ? {id:'u'+Date.now(), type:'photo', content:ideaPhoto, note:t, createdAt:ymd(new Date())} : {id:'u'+Date.now(), type:'text', content:t, createdAt:ymd(new Date())};
-      STATE.ideas.unshift(idea);
-      if(!saveState()){ if(ideaPhoto){ STATE.ideas.shift(); toast('не хватает места для фото'); return; } toast('идея не сохранится после перезагрузки'); }
-      haptic('light'); closeSheet(); render(); toast('идея в плане');
-    }
-  });
-
-  /* ---------- publish ---------- */
-  function copyText(t){
-    var fallback = function(){ try{ var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.top='-1000px'; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, t.length); var ok=document.execCommand('copy'); document.body.removeChild(ta); return ok; }catch(e){ return false; } };
-    try{ if(navigator.clipboard && window.isSecureContext){ return navigator.clipboard.writeText(t).then(function(){ return true; }, function(){ return fallback(); }); } }catch(e){}
-    return Promise.resolve(fallback());
-  }
-  var viewer = document.getElementById('viewer');
-  function openViewer(p, copied){
-    var img = p.photo ? '<img src="'+esc(p.photo)+'" alt="" data-pf="'+esc(pfName(p.platform))+'" onerror="window.__imgFail(this)">' : '<div class="ph">'+esc(pfName(p.platform))+'</div>';
-    viewer.innerHTML = '<div class="img">'+img+'</div><div class="bar">'+
-      (copied ? '' : '<div class="fallback-text">'+esc(p.text)+'</div>')+
-      '<p>'+(copied ? 'Текст уже в буфере. ' : 'Выдели текст выше и скопируй. ')+'Зажми фото, чтобы сохранить.</p>'+
-      '<button class="btn btn-primary btn-wide" data-viewer="close">готово</button></div>';
-    viewer.classList.add('open');
-  }
-  viewer.addEventListener('click', function(e){ if(e.target.closest('[data-viewer="close"]')){ viewer.classList.remove('open'); viewer.innerHTML=''; } });
-
-  function publish(id){
-    var p = allPosts().filter(function(x){ return x.id===id; })[0]; if(!p) return;
-    copyText(p.text).then(function(ok){
-      toast(ok ? 'текст скопирован' : 'не получилось скопировать автоматически');
-      setPost(id, {status:'published', publishedAt:nowIso()});
-      haptic('success');
-      render();
-      openViewer(p, ok);
-    });
-  }
-
-  /* ---------- main events ---------- */
-  app.addEventListener('click', function(e){
-    var el = e.target.closest('[data-action]'); if(!el) return;
-    var a = el.getAttribute('data-action'), id = el.getAttribute('data-id');
-    if(a==='retry') return load();
-    if(a==='publish') return publish(id);
-    if(a==='copyonly'){ var cp=allPosts().filter(function(x){return x.id===id;})[0]; if(cp) copyText(cp.text).then(function(ok){ toast(ok?'текст скопирован':'не получилось, выдели текст вручную'); }); return; }
-    if(a==='markpub'){ setPost(id,{status:'published', publishedAt:nowIso()}); haptic('success'); render(); toast('отмечено: выложено'); return; }
-    if(a==='approve'){ setPost(id, {status:'approved'}); haptic('light'); render(); toast('утверждено'); return; }
-    if(a==='revise') return openRevise(id);
-    if(a==='idea') return openIdea();
-    if(a==='toggle'){ expanded[id]=!expanded[id]; render(); return; }
-    if(a==='day'){ var d=el.getAttribute('data-date'); selectedDay = selectedDay===d ? null : d; haptic('light'); render(); return; }
-    if(a==='reset'){ if(!el.getAttribute('data-armed')){ el.setAttribute('data-armed','1'); el.textContent='нажми ещё раз, чтобы сбросить'; return; } try{ localStorage.removeItem(LS_KEY); }catch(err){} STATE={posts:{}, ideas:[]}; expanded={}; selectedDay=null; render(); toast('изменения сброшены'); }
-  });
-
-  load();
-})();
-</script>
-
-<style>
-#shtabBar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:0;background:#EFEEE8;border-top:1px solid #d9d6cc;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
-#shtabBar button{flex:1;padding:14px 8px;border:0;background:transparent;font:600 15px -apple-system,Segoe UI,Roboto,sans-serif;color:#7a756c}
-#shtabBar button.on{color:#1c1c1c;box-shadow:inset 0 3px 0 #c8a882}
-#archFrame{position:fixed;left:0;right:0;top:0;bottom:50px;width:100%;height:calc(100% - 50px);border:0;background:#faf8f3;display:none;z-index:40}
-#app{padding-bottom:70px}
-</style>
-<div id="shtabBar"><button id="tabMain" class="on">Контент</button><button id="tabArch">Архив выкладки</button></div>
-<iframe id="archFrame" title="Архив выкладки"></iframe>
-<script>
-(function(){
-  var A="a-65af381c9bbed11b/",f=document.getElementById('archFrame'),app=document.getElementById('app');
-  function show(a){document.getElementById('tabMain').className=a?'':'on';document.getElementById('tabArch').className=a?'on':'';f.style.display=a?'block':'none';app.style.display=a?'none':'';if(a&&!f.src)f.src=A;try{localStorage.setItem('shtab-tab',a?'a':'m')}catch(e){}}
-  document.getElementById('tabMain').onclick=function(){show(false)};
-  document.getElementById('tabArch').onclick=function(){show(true)};
-  try{if(localStorage.getItem('shtab-tab')==='a')show(true)}catch(e){}
-})();
+const $=s=>document.querySelector(s);
+const TGW=(function(){try{return (window.Telegram&&window.Telegram.WebApp)||(window.parent&&window.parent.Telegram&&window.parent.Telegram.WebApp)||null}catch(e){return null}})();
+function abs(f){return new URL('files/'+f,location.href).href}
+function tgDl(f){try{if(TGW&&TGW.downloadFile){TGW.downloadFile({url:abs(f),file_name:f.split('/').pop()});return true}}catch(e){}return false}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+async function copy(t){try{await navigator.clipboard.writeText(t);toast('Скопировано')}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();toast('Скопировано')}}
+function isVid(f){return /\.(mp4|mov)$/i.test(f)}
+function fmt(d){if(!d)return null;const [y,m,dd]=d.split('-');return dd+'.'+m+'.'+y}
+async function zipAll(it){
+  if(TGW&&TGW.downloadFile){it.files.forEach(f=>tgDl(f));return}
+  if(!window.JSZip){toast('Скачай файлы по одному');return}
+  toast('Собираю архив...');
+  const z=new JSZip();
+  for(const f of it.files){const r=await fetch('files/'+f);z.file(f.split('/').pop(),await r.blob())}
+  it.texts.forEach((t,i)=>z.file('text-'+(i+1)+'.txt',t.label+'\n\n'+t.text));
+  const b=await z.generateAsync({type:'blob'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=it.id+'.zip';a.click();
+}
+function card(it){
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML='<span class="tag" style="background:'+(it.platform.indexOf("Pinterest")==0?"#e60023":it.platform.indexOf("Telegram")==0?"#2481cc":"#f58529")+'">'+it.platform+'</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--grey)">'+it.kind+'</span><h3></h3><p class="note"></p><div class="thumbs"></div><div class="btns"></div>';
+  c.querySelector('h3').textContent=it.title;c.querySelector('.note').textContent=it.note||'';
+  const th=c.querySelector('.thumbs');
+  it.files.forEach(f=>{const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f;if(isVid(f)){e.controls=true;e.preload='metadata';e.muted=true}else{e.loading='lazy'}th.appendChild(e)});
+  const bt=c.querySelector('.btns');
+  const all=document.createElement('button');all.className='main';all.textContent='Скачать всё';all.onclick=()=>zipAll(it);bt.appendChild(all);
+  it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.onclick=e=>{if(tgDl(f))e.preventDefault()};a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
+  it.texts.forEach(t=>{const d=document.createElement('div');d.className='txt';const b=document.createElement('b');b.textContent=t.label;d.appendChild(b);d.appendChild(document.createTextNode(t.text));
+    const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);d.appendChild(document.createElement('br'));d.appendChild(cb);c.appendChild(d)});
+  return c;
+}
+fetch('data.json').then(r=>r.json()).then(d=>{
+  const app=$('#app');
+  const groups={};d.items.forEach(i=>{(groups[i.date||'']=groups[i.date||'']||[]).push(i)});
+  const keys=Object.keys(groups).sort((a,b)=>a===''?-1:b===''?1:a<b?-1:1);
+  keys.forEach(k=>{const h=document.createElement('h2');h.textContent=k?fmt(k):'Готово, дата не назначена';app.appendChild(h);groups[k].forEach(i=>app.appendChild(card(i)))});
+});
 </script>
 </body>
 </html>
