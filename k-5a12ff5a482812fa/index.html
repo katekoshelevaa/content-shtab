@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Семейный бюджет</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#F3EBDD; --card:#FBF7EF; --soft:#F1E8D8; --line:#E6DCC9;
+    --text:#1F2328; --muted:#6F675E;
+    --teal:#1E5C5F; --navy:#1F3A6E; --terra:#B5523B;
+    --ok:#3F8A6A; --warn:#D9A021; --soft-bad:#C9785F;
+    --track:#E3D9C6;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{background:var(--bg);color:var(--text)}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:15px;line-height:1.4;overflow-x:hidden}
+  .app{max-width:430px;margin:0 auto;padding:16px 16px calc(32px + var(--safe-b))}
+  h1{font-size:20px;font-weight:800}
+  h2{font-size:15px;font-weight:800;margin-bottom:12px}
+  .muted{color:var(--muted)} .small{font-size:13px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .head{display:flex;justify-content:space-between;align-items:center}
+  .tabs{display:flex;gap:8px;margin:14px 0 4px}
+  .tab{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text);font:inherit;font-size:14px;cursor:pointer}
+  .tab.active{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600}
+
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .tile{background:var(--soft);border-radius:16px;padding:12px 14px}
+  .tile b{display:block;font-size:19px;font-weight:800;margin-top:2px}
+  .topup{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;padding:12px 14px;border-radius:16px;border:1px dashed var(--navy)}
+  .topup b{font-size:18px;font-weight:800;color:var(--navy);white-space:nowrap}
+  .topup.plus{border-color:var(--teal)} .topup.plus b{color:var(--teal)}
+
+  .scale{margin-bottom:16px}
+  .scale:last-child{margin-bottom:0}
+  .track{position:relative;height:12px;border-radius:99px;background:var(--track);margin:7px 0 5px}
+  .fill{position:absolute;left:0;top:0;height:100%;border-radius:99px}
+  .pace{position:absolute;top:-4px;width:2px;height:20px;background:var(--text);border-radius:1px}
+  .sub{font-size:12px;color:var(--muted)}
+  .ogrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .otile{background:var(--soft);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+  .otile b{font-size:16px;font-weight:800}
+  .otile .obar{margin-top:auto;padding-top:0}
+  .transit{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--soft);color:var(--muted)}
+  .obar{height:6px;border-radius:99px;background:var(--track);margin-top:6px;overflow:hidden}
+  .obar>span{display:block;height:100%;background:var(--muted);opacity:.55;border-radius:99px}
+  .unsorted{margin-top:12px;padding:12px 14px;border:1px dashed var(--muted);border-radius:14px}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-bottom:14px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+
+  details summary{list-style:none;cursor:pointer;min-height:44px;display:flex;justify-content:space-between;align-items:center}
+  details summary::-webkit-details-marker{display:none}
+  details .row{padding:6px 0;border-top:1px solid var(--line);font-size:14px}
+
+  .bar{height:8px;border-radius:99px;background:var(--track);overflow:hidden;margin:6px 0 14px}
+  .bar>span{display:block;height:100%;border-radius:99px;background:var(--teal)}
+  .total{border-top:1px solid var(--line);padding-top:14px}
+  .bigpct{font-size:34px;font-weight:800;line-height:1.1}
+  .pill{border:1px solid var(--terra);color:var(--terra);border-radius:999px;padding:3px 10px;font-size:13px;white-space:nowrap}
+  .fc .row{padding:5px 0;font-size:15px}
+  .fc .res{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:800}
+  .need{color:var(--navy)} .pos{color:var(--teal)}
+
+  .stub{text-align:center;padding:60px 20px}
+  .stub p{margin:8px 0 22px}
+  .btn{width:100%;min-height:48px;border-radius:14px;border:none;background:var(--teal);color:#fff;font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="app" id="app"><div class="stub muted">Загружаю бюджет…</div></div>
+
+<script>
+(function(){
+  var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+  if (tg) { try { tg.ready(); tg.expand(); } catch(e){} }
+
+  var state=null, tab='month';
+  var app=document.getElementById('app');
+  var COL={g:'var(--ok)',y:'var(--warn)',r:'var(--soft-bad)'};
+
+  function rub(n){ return Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' ₽'; }
+  function pct(n){ return (Math.round(n*10)/10).toString().replace('.',',')+'%'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function pctInt(n){ return (n<1&&n>0?'<1':Math.round(n))+'%'; }
+  function level(spent,pace){ return spent>pace?'r':spent>=pace*0.85?'y':'g'; }
+  function balanceLine(r,by){
+    return r<0
+      ? '<div class="topup"><span>Пополнить бюджет'+(by?' до '+esc(by):'')+'</span><b>'+rub(r)+'</b></div>'
+      : '<div class="topup plus"><span>Остаётся</span><b>'+rub(r)+'</b></div>';
+  }
+
+  function load(){
+    app.innerHTML='<div class="stub muted">Загружаю бюджет…</div>';
+    fetch('data.json?v='+Date.now(),{cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(d){ state=d; render(); })
+      .catch(function(){
+        app.innerHTML='<div class="stub"><h1>Не получилось загрузить данные</h1><p class="muted">Проверь интернет и попробуй ещё раз.</p><button class="btn" id="retry">Попробовать ещё раз</button></div>';
+        document.getElementById('retry').onclick=load;
+      });
+  }
+
+  function tabs(){
+    return '<div class="tabs">'+[['month','Месяц'],['debts','Долги'],['forecast','Прогноз']].map(function(t){
+      return '<button class="tab'+(tab===t[0]?' active':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>';
+    }).join('')+'</div>';
+  }
+
+  function monthHtml(){
+    var m=state.month, frac=m.today/m.days;
+    var scales=m.flexible.map(function(c){
+      var pace=c.plan*frac, lv=level(c.spent,pace), max=Math.max(c.plan,c.spent);
+      var txt=c.spent>c.plan?'сверх плана '+rub(c.spent-c.plan)
+            :c.spent>pace?'по темпу +'+rub(c.spent-pace)
+            :'запас '+rub(pace-c.spent);
+      return '<div class="scale"><div class="row"><span>'+esc(c.name)+(c.note?' <span class="muted small">· '+esc(c.note)+'</span>':'')+'</span><span class="muted small">план '+rub(c.plan)+'</span></div>'+
+        '<div class="track"><div class="fill" style="width:'+(c.spent/max*100)+'%;background:'+COL[lv]+'"></div>'+
+        '<div class="pace" style="left:'+(pace/max*100)+'%"></div></div>'+
+        '<div class="row"><span class="small">Потрачено <b>'+rub(c.spent)+'</b> · '+pctInt(c.spent/c.plan*100)+' плана</span><span class="sub">'+txt+'</span></div></div>';
+    }).join('');
+
+    return ''+
+    '<div class="card"><div class="head"><h1>'+esc(m.title)+'</h1><span class="muted small">'+m.today+' из '+m.days+' дней</span></div>'+tabs()+
+      '<div class="pair"><div class="tile"><span class="muted small">Приход</span><b>'+rub(m.income)+'</b></div>'+
+      '<div class="tile"><span class="muted small">Расход</span><b>'+rub(m.expense)+'</b></div></div>'+
+      balanceLine(m.income-m.expense,m.topupBy)+'</div>'+
+
+    spendHtml(m)+
+    '<div class="card"><details><summary><h2 style="margin:0">Обязательные</h2><b>'+rub(m.mandatory.total)+'</b></summary>'+
+      m.mandatory.items.map(function(i){return '<div class="row"><span>'+esc(i.name)+(i.note?'<br><span class="muted small">'+esc(i.note)+'</span>':'')+'</span><span style="text-align:right">'+rub(i.plan)+(i.paid!=null?'<br><span class="small" style="color:var(--ok)">оплачено '+rub(i.paid)+'</span>':'')+'</span></div>';}).join('')+
+    '</details></div>';
+  }
+
+  function spendHtml(m){
+    var frac=m.today/m.days, tot=m.spentTotal||1;
+    var items=m.flexible.map(function(c){return {name:c.name,note:c.note,spent:c.spent,plan:c.plan};})
+      .concat((m.other||[]).map(function(o){return {name:o.name,note:o.note,spent:o.spent,nextPlan:o.nextPlan};}))
+      .sort(function(a,b){return b.spent-a.spent;});
+    var mx=items[0]?items[0].spent:1;
+    var rows=items.map(function(c){
+      var head='<div class="row"><span>'+esc(c.name)+(c.note?' <span class="muted small">· '+esc(c.note)+'</span>':'')+'</span>';
+      if(c.plan){
+        var pace=c.plan*frac, lv=level(c.spent,pace), max=Math.max(c.plan,c.spent);
+        var txt=c.spent>c.plan?'сверх плана '+rub(c.spent-c.plan):c.spent>pace?'по темпу +'+rub(c.spent-pace):'запас '+rub(pace-c.spent);
+        return '<div class="scale">'+head+'<span class="muted small">план '+rub(c.plan)+'</span></div>'+
+          '<div class="track"><div class="fill" style="width:'+(c.spent/max*100)+'%;background:'+COL[lv]+'"></div><div class="pace" style="left:'+(pace/max*100)+'%"></div></div>'+
+          '<div class="row"><span class="small"><b>'+rub(c.spent)+'</b> · '+pctInt(c.spent/c.plan*100)+' плана</span><span class="sub">'+txt+'</span></div></div>';
+      }
+      return '<div class="scale">'+head+'<span class="muted small">'+(c.nextPlan&&m.nextMonth?'в '+(m.nextMonth==='ноябрь'?'ноябре':m.nextMonth)+' план '+rub(c.nextPlan):'без плана')+'</span></div>'+
+        '<div class="track"><div class="fill" style="width:'+(c.spent/mx*100)+'%;background:var(--muted);opacity:.45"></div></div>'+
+        '<div class="row"><span class="small"><b>'+rub(c.spent)+'</b></span><span class="sub">'+pctInt(c.spent/tot*100)+' всех трат</span></div></div>';
+    }).join('');
+    var u=m.unsorted?'<div class="unsorted"><div class="row"><span>'+esc(m.unsorted.name)+' <span class="muted small">'+pctInt(m.unsorted.spent/tot*100)+'</span></span><b>'+rub(m.unsorted.spent)+'</b></div><div class="sub">'+esc(m.unsorted.note)+'</div></div>':'';
+    var t=m.transit?'<div class="transit"><div class="row"><span>'+esc(m.transit.name)+'</span><b>'+(m.transit.spent!=null?rub(m.transit.spent):'—')+'</b></div>'+(m.transit.note?'<div class="sub">'+esc(m.transit.note)+'</div>':'')+'</div>':'';
+    return '<div class="card"><div class="row"><h2>Траты</h2><span class="muted small">всего '+rub(tot)+'</span></div>'+
+      (m.source?'<p class="muted small" style="margin:-6px 0 12px">'+esc(m.source)+'</p>':'')+
+      '<div class="legend"><span><i style="background:var(--ok)"></i>в плане</span><span><i style="background:var(--warn)"></i>стоит задуматься</span><span><i style="background:var(--soft-bad)"></i>быстрее плана</span></div>'+
+      rows+u+t+'</div>';
+  }
+
+  function debtsHtml(){
+    var d=state.debts, p=d.total?d.paid/d.total*100:0;
+    return '<div class="card"><div class="head"><h1>Долги</h1><span class="muted small">'+esc(d.asOf)+'</span></div>'+tabs()+
+      '<div class="bigpct" style="margin-top:14px">'+pct(p)+'</div>'+
+      '<p class="muted small" style="margin:4px 0 18px">выплачено '+rub(d.paid)+' из '+rub(d.total)+' по регулярным долгам</p>'+
+      d.items.map(function(it){return '<div class="row"><span>'+esc(it.name)+'</span><span class="muted small">'+pct(it.percent)+'</span></div><div class="bar"><span style="width:'+Math.min(100,it.percent)+'%"></span></div>';}).join('')+
+      '<div class="row total"><span>Осталось выплатить</span><b>'+rub(d.remaining)+'</b></div>'+
+      '<div class="row" style="margin-top:12px;align-items:center"><span>Срочные разовые</span><span class="pill">'+rub(d.urgentOneOff)+'</span></div></div>';
+  }
+
+  function forecastHtml(){
+    var sum=0;
+    var cards=state.forecast.months.map(function(m){
+      var r=m.income-m.expense; sum+=r;
+      return '<div class="card fc"><h2>'+esc(m.name)+'</h2>'+
+        '<div class="row"><span class="muted">Приход</span><span>'+rub(m.income)+'</span></div>'+
+        '<div class="row"><span class="muted">Расход</span><span>'+rub(m.expense)+'</span></div>'+
+        '<div class="row res"><span>'+(r<0?'Пополнить бюджет на':'Остаётся')+'</span><span class="'+(r<0?'need':'pos')+'">'+rub(r)+'</span></div></div>';
+    }).join('');
+    return '<div class="card"><div class="head"><h1>Прогноз</h1><span class="muted small">3 месяца</span></div>'+tabs()+
+      balanceLine(sum).replace('Пополнить бюджет','За 3 месяца пополнить на').replace('>Остаётся<','>За 3 месяца остаётся<')+'</div>'+cards;
+  }
+
+  function render(){
+    if(!state) return;
+    app.innerHTML= tab==='month'?monthHtml():tab==='debts'?debtsHtml():forecastHtml();
+    Array.prototype.forEach.call(app.querySelectorAll('[data-tab]'),function(b){
+      b.onclick=function(){ tab=b.getAttribute('data-tab'); render(); window.scrollTo(0,0); };
+    });
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>
