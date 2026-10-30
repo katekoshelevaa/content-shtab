@@ -27,6 +27,27 @@
    "metric": "просмотры за день",
    "value": 278,
    "note": ""
+  },
+  {
+   "date": "2026-10-30",
+   "platform": "telegram",
+   "metric": "подписчики",
+   "value": 120,
+   "note": ""
+  },
+  {
+   "date": "2026-10-30",
+   "platform": "threads",
+   "metric": "подписчики",
+   "value": 2,
+   "note": ""
+  },
+  {
+   "date": "2026-10-30",
+   "platform": "threads",
+   "metric": "просмотры за день",
+   "value": 9,
+   "note": ""
   }
  ]
 }
