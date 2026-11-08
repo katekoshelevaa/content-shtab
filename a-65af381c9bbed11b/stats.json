@@ -50,6 +50,69 @@
    "note": ""
   },
   {
+   "date": "2026-10-31",
+   "platform": "telegram",
+   "metric": "подписчики",
+   "value": 120,
+   "note": ""
+  },
+  {
+   "date": "2026-10-31",
+   "platform": "threads",
+   "metric": "подписчики",
+   "value": 2,
+   "note": ""
+  },
+  {
+   "date": "2026-10-31",
+   "platform": "threads",
+   "metric": "просмотры за день",
+   "value": 256,
+   "note": ""
+  },
+  {
+   "date": "2026-11-01",
+   "platform": "telegram",
+   "metric": "подписчики",
+   "value": 120,
+   "note": ""
+  },
+  {
+   "date": "2026-11-01",
+   "platform": "threads",
+   "metric": "подписчики",
+   "value": 2,
+   "note": ""
+  },
+  {
+   "date": "2026-11-01",
+   "platform": "threads",
+   "metric": "просмотры за день",
+   "value": 45,
+   "note": ""
+  },
+  {
+   "date": "2026-11-02",
+   "platform": "telegram",
+   "metric": "подписчики",
+   "value": 120,
+   "note": ""
+  },
+  {
+   "date": "2026-11-02",
+   "platform": "threads",
+   "metric": "подписчики",
+   "value": 2,
+   "note": ""
+  },
+  {
+   "date": "2026-11-02",
+   "platform": "threads",
+   "metric": "просмотры за день",
+   "value": 5,
+   "note": ""
+  },
+  {
    "date": "2026-11-06",
    "platform": "telegram",
    "metric": "подписчики",
