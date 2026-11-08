@@ -26,14 +26,17 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;f
 .txt b{display:block;font-size:13px;color:var(--grey);margin-bottom:4px}
 .lb{position:fixed;inset:0;background:#fff;z-index:100;display:none;flex-direction:column}.lb.on{display:flex}.lbtop{padding:12px 14px;border-bottom:1px solid var(--line)}.lbtop button{font-weight:600}.lbbody{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:10px}.lbbody img,.lbbody video{max-width:100%;max-height:100%;border-radius:12px}.lbbot{padding:12px 14px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line)}.thumbs img,.thumbs video{cursor:pointer}.cal{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:18px}.calh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.calh b{font-size:17px;text-transform:capitalize}.calh button{padding:4px 12px}.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.grid .wd{font-size:12px;color:var(--grey)}.day{padding:6px 0 4px;border-radius:10px;cursor:pointer;min-height:48px}.day.sel{background:#f3ece1}.day.today .n{background:var(--ink);color:#fff;border-radius:50%;display:inline-block;width:24px;height:24px;line-height:24px}.day.off{opacity:.35}.n{font-size:14px;display:inline-block}.dots{display:flex;gap:3px;justify-content:center;margin-top:3px;flex-wrap:wrap}.dots i{width:7px;height:7px;border-radius:50%;display:block}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--grey);margin-top:10px}.legend span i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.dayinfo{font-size:14px;margin-top:10px;white-space:pre-wrap}.stat{border-bottom:1px solid var(--line);padding:10px 0}.stat:last-child{border:0}.stat .v{font-size:22px;font-weight:700}.stat .dl{font-size:13px;margin-left:8px}.up{color:#2e9e5b}.down{color:#d44}.spark{display:block;margin-top:6px}.fb{font-size:13px;color:var(--grey);margin-top:4px}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1c1c1c;color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
 .toast.on{opacity:1}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;position:sticky;top:0;background:var(--bg);z-index:5}.tabs button{flex:0 0 auto;border-radius:22px;padding:9px 16px;font-weight:500}.tabs button.on{background:#5e6b4a;border-color:#5e6b4a;color:#fff}
+details.txt summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none}details.txt summary::-webkit-details-marker{display:none}details.txt summary:before{content:"▸ ";}details.txt[open] summary:before{content:"▾ ";}details.txt .body{margin-top:8px}
+.st{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.st button.on.plan{background:#e8d9a8;border-color:#e8d9a8;font-weight:600}.st button.on.pub{background:#cfe3c4;border-color:#cfe3c4;font-weight:600}.dt{color:var(--grey);font-size:13px;margin-left:6px}
 .foot{color:var(--grey);font-size:12px;margin-top:30px}
 </style>
 </head>
 <body>
 <main>
 <h1>Архив публикаций</h1>
-<p class="sub">История того, что я готовлю для Instagram* и Pinterest. Нажми «Скачать всё» или «Скопировать текст». Дату можно сказать Лии, она перенесёт карточку.</p>
-<div id="cal"></div>
+<p class="sub">Готовые материалы по площадкам. Выбери площадку сверху, раскрой текст, скопируй, отметь «Запланировано» или «Опубликовано».</p>
+<div id="tabs" class="tabs"></div>
 <div id="app"></div>
 <div id="stats"></div>
 <p class="foot">*Instagram принадлежит Meta, признанной в РФ экстремистской организацией.</p>
@@ -118,18 +121,30 @@ function card(it){
   const bt=c.querySelector('.btns');
   const all=document.createElement('button');all.className='main';all.textContent='Скачать всё';all.onclick=()=>zipAll(it);bt.appendChild(all);
   it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.onclick=e=>{if(tgDl(f))e.preventDefault()};a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
-  it.texts.forEach(t=>{const d=document.createElement('div');d.className='txt';const b=document.createElement('b');b.textContent=t.label;d.appendChild(b);d.appendChild(document.createTextNode(t.text));
-    const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);d.appendChild(document.createElement('br'));d.appendChild(cb);c.appendChild(d)});
+  it.texts.forEach(t=>{const d=document.createElement('details');d.className='txt';const sm=document.createElement('summary');sm.textContent=t.label;d.appendChild(sm);const bd=document.createElement('div');bd.className='body';bd.appendChild(document.createTextNode(t.text));const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);bd.appendChild(document.createElement('br'));bd.appendChild(cb);d.appendChild(bd);c.appendChild(d)});
+  const st=document.createElement('div');st.className='st';
+  const cur=getSt(it);
+  [['plan','Запланировано'],['pub','Опубликовано']].forEach(([k,l])=>{const b=document.createElement('button');b.className=k+(cur===k?' on':'');b.textContent=l;b.onclick=()=>{setSt(it,cur===k?'':k);draw()};st.appendChild(b)});
+  if(it.date){const dt=document.createElement('span');dt.className='dt';dt.textContent=fmt(it.date);st.appendChild(dt)}
+  c.appendChild(st);
   return c;
 }
 fetch('stats.json?t='+Date.now()).then(r=>r.json()).then(renderStats).catch(()=>renderStats(null));
-fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{
-  CAL.ev=d.items.filter(i=>i.date).map(i=>({date:i.date,platform:i.platform,title:i.title})).concat((d.plan||[]).map(p=>({date:p.date,platform:p.platform,title:p.label||''})));renderCal();
-  const app=$('#app');
-  const groups={};d.items.forEach(i=>{(groups[i.date||'']=groups[i.date||'']||[]).push(i)});
-  const keys=Object.keys(groups).sort((a,b)=>a===''?-1:b===''?1:a<b?-1:1);
-  keys.forEach(k=>{const h=document.createElement('h2');h.textContent=k?fmt(k):'Готово, дата не назначена';app.appendChild(h);groups[k].forEach(i=>app.appendChild(card(i)))});
-});
+let DATA=null,FIL='all';
+function getSt(it){try{const v=localStorage.getItem('st:'+it.id);if(v!==null)return v}catch(e){}return it.status||''}
+function setSt(it,v){try{localStorage.setItem('st:'+it.id,v)}catch(e){}it.status=v}
+function draw(){
+  const items=DATA.items;
+  const plats=[...new Set(items.map(i=>pkey(i.platform)))];
+  const tb=$('#tabs');tb.innerHTML='';
+  [['all','Все']].concat(plats.map(p=>[p,PN[p]])).forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;if(FIL===k)b.className='on';b.onclick=()=>{FIL=k;draw()};tb.appendChild(b)});
+  const app=$('#app');app.innerHTML='';
+  const list=items.filter(i=>FIL==='all'||pkey(i.platform)===FIL);
+  const secs=[['','Готово'],['plan','Запланировано'],['pub','Опубликовано']];
+  secs.forEach(([k,l])=>{const g=list.filter(i=>getSt(i)===k).sort((a,b)=>(a.date||'')<(b.date||'')?-1:1);if(!g.length)return;const h=document.createElement('h2');h.textContent=l+' · '+g.length;app.appendChild(h);g.forEach(i=>app.appendChild(card(i)))});
+  if(!list.length)app.innerHTML='<p class="note">Здесь пока ничего нет.</p>';
+}
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;draw()});
 </script>
 </body>
 </html>
