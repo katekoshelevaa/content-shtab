@@ -126,6 +126,7 @@ function card(it){
   const cur=getSt(it);
   [['plan','Запланировано'],['pub','Опубликовано']].forEach(([k,l])=>{const b=document.createElement('button');b.className=k+(cur===k?' on':'');b.textContent=l;b.onclick=()=>{setSt(it,cur===k?'':k);draw()};st.appendChild(b)});
   if(it.date){const dt=document.createElement('span');dt.className='dt';dt.textContent=fmt(it.date);st.appendChild(dt)}
+  if(it.kind==='Пин'){const k='img:'+it.id;let on=false;try{on=localStorage.getItem(k)==='1'}catch(e){}const b=document.createElement('button');b.textContent=on?'✓ Картинка сделана':'Картинка сделана';if(on)b.className='pub on';b.onclick=()=>{try{localStorage.setItem(k,on?'':'1')}catch(e){}draw()};st.insertBefore(b,st.firstChild)}
   c.appendChild(st);
   return c;
 }
