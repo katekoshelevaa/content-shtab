@@ -102,8 +102,19 @@ function renderStats(s){
 }
 function isVid(f){return /\.(mp4|mov)$/i.test(f)}
 function fmt(d){if(!d)return null;const [y,m,dd]=d.split('-');return dd+'.'+m+'.'+y}
+async function shareFiles(names){
+  try{
+    if(!navigator.canShare||!navigator.share)return false;
+    toast('Готовлю файлы...');
+    const fs=[];
+    for(const f of names){const r=await fetch('files/'+f);const b=await r.blob();fs.push(new File([b],f.split('/').pop(),{type:b.type||(isVid(f)?'video/mp4':'image/jpeg')}))}
+    if(!navigator.canShare({files:fs}))return false;
+    await navigator.share({files:fs});return true;
+  }catch(e){return e&&e.name==='AbortError'}
+}
 async function zipAll(it){
   if(TGW&&TGW.downloadFile){it.files.forEach(f=>tgDl(f));return}
+  if(await shareFiles(it.files))return;
   if(!window.JSZip){toast('Скачай файлы по одному');return}
   toast('Собираю архив...');
   const z=new JSZip();
@@ -120,7 +131,7 @@ function card(it){
   it.files.forEach(f=>{const w=document.createElement('div');w.style.cssText='position:relative;flex:0 0 auto;cursor:pointer';const e=document.createElement(isVid(f)?'video':'img');e.src='files/'+f+(isVid(f)?'#t=0.5':'');if(isVid(f)){e.preload='metadata';e.muted=true;e.playsInline=true;e.style.pointerEvents='none'}else{e.loading='lazy'}w.appendChild(e);if(isVid(f)){const pl=document.createElement('div');pl.textContent='▶';pl.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;text-shadow:0 0 8px #000';w.appendChild(pl)}w.onclick=()=>openLb(f,it.files);th.appendChild(w)});
   const bt=c.querySelector('.btns');
   const all=document.createElement('button');all.className='main';all.textContent='Скачать всё';all.onclick=()=>zipAll(it);bt.appendChild(all);
-  it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.onclick=e=>{if(tgDl(f))e.preventDefault()};a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
+  it.files.forEach(f=>{const a=document.createElement('a');a.className='btn';a.href='files/'+f;a.download=f.split('/').pop();a.onclick=async e=>{e.preventDefault();if(tgDl(f))return;if(await shareFiles([f]))return;window.open('files/'+f,'_blank')};a.textContent='↓ '+f.split('/').pop();bt.appendChild(a)});
   it.texts.forEach(t=>{const d=document.createElement('details');d.className='txt';const sm=document.createElement('summary');sm.textContent=t.label;d.appendChild(sm);const bd=document.createElement('div');bd.className='body';bd.appendChild(document.createTextNode(t.text));const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);bd.appendChild(document.createElement('br'));bd.appendChild(cb);d.appendChild(bd);c.appendChild(d)});
   const st=document.createElement('div');st.className='st';
   const cur=getSt(it);
