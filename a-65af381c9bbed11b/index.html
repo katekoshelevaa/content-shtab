@@ -61,11 +61,24 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#fff}
 .day.today .n{background:var(--acc);width:24px;height:24px;line-height:24px}
 h2{margin:28px 4px 12px;font-size:15px}
 .lb{background:var(--bg)}
+
+/* === компактная шапка: что сделать сегодня === */
+.hero{border-radius:24px;padding:14px 16px 12px;margin:2px 0 14px}
+.hero:after{width:110px;height:110px;right:-34px;top:-34px}
+.hero .hh{display:flex;justify-content:space-between;align-items:baseline;position:relative}
+.hero .hh b{font-size:18px}.hero .hh span{font-size:13px;color:#7a4a00;font-weight:600}
+.hero .tg{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;position:relative}
+.hero .tg .c{background:#fff;border-radius:16px;padding:7px 12px;font-size:14px;display:flex;gap:8px;align-items:center}
+.hero .tg .c i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.hero .tg .c b{color:var(--acc);font-size:16px}
+.hero .tg .c.ok{background:var(--acc);color:#fff}.hero .tg .c.ok b{color:#fff}
+.hero .none{margin-top:8px;font-size:14px;color:#4a3a10;position:relative}
+.hero .hall{margin-top:8px;font-size:12px;color:#7a4a00;position:relative}
 </style>
 </head>
 <body>
 <main>
-<div class="hero"><small>Штаб Катерины</small><h1>Архив публикаций</h1><p class="sub">Готовые материалы по площадкам. Выбери площадку, раскрой текст, скопируй, отметь статус.</p><div class="chips"><div class="chip"><b id="hPlan">0</b><span>запланировано</span></div><div class="chip"><b id="hPub">0</b><span>опубликовано</span></div></div></div>
+<div class="hero"><div class="hh"><b>Штаб Катерины</b><span id="hDate"></span></div><div id="hToday"></div><div class="hall" id="hAll"></div></div>
 <div id="tabs" class="tabs"></div>
 <div id="app"></div>
 <div id="stats"></div>
@@ -179,15 +192,24 @@ function draw(){
   const items=DATA.items;
   const plats=[...new Set(items.map(i=>pkey(i.platform)))];
   const tb=$('#tabs');tb.innerHTML='';
-  [['all','Все']].concat(plats.map(p=>[p,PN[p]])).forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;if(FIL===k)b.className='on';b.onclick=()=>{FIL=k;draw()};tb.appendChild(b)});
+  plats.slice().sort((x,y)=>(y==='instagram')-(x==='instagram')).map(p=>[p,PN[p]]).concat([['all','Все']]).forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;if(FIL===k)b.className='on';b.onclick=()=>{FIL=k;draw()};tb.appendChild(b)});
   const app=$('#app');app.innerHTML='';
   const list=items.filter(i=>FIL==='all'||pkey(i.platform)===FIL);
   const secs=[['','Готово'],['plan','Запланировано'],['pub','Опубликовано']];
   secs.forEach(([k,l])=>{const g=list.filter(i=>getSt(i)===k).sort((a,b)=>(a.date||'')<(b.date||'')?-1:1);if(!g.length)return;const h=document.createElement('h2');h.textContent=l+' · '+g.length;app.appendChild(h);g.forEach(i=>app.appendChild(card(i)))});
   if(!list.length)app.innerHTML='<p class="note">Здесь пока ничего нет.</p>';
 }
-fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;draw();hero()});
-function hero(){try{let p=0,u=0;DATA.items.forEach(i=>{const s=getSt(i);if(s==='plan')p++;if(s==='pub')u++});$('#hPlan').textContent=p;$('#hPub').textContent=u}catch(e){}}
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;if(d.items.some(i=>pkey(i.platform)==='instagram'))FIL='instagram';draw();hero()});
+const _dr=draw;draw=function(){_dr();hero()};
+function hero(){try{
+const t=iso(new Date()),it=DATA.items,td=it.filter(i=>i.date===t);let p=0,u=0;it.forEach(i=>{const s=getSt(i);if(s==='plan')p++;if(s==='pub')u++});
+const ms=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],n=new Date();
+$('#hDate').textContent='сегодня, '+n.getDate()+' '+ms[n.getMonth()];
+const g={};td.forEach(i=>{const k=pkey(i.platform);(g[k]=g[k]||{a:0,d:0});g[k].a++;if(getSt(i)==='pub')g[k].d++});
+const ks=Object.keys(g);
+$('#hToday').innerHTML=ks.length?'<div class="tg">'+ks.map(k=>'<div class="c'+(g[k].d===g[k].a?' ok':'')+'"><i style="background:'+PC[k]+'"></i>'+PN[k]+' <b>'+g[k].d+'/'+g[k].a+'</b></div>').join('')+'</div>':'<div class="none">На сегодня ничего не запланировано</div>';
+$('#hAll').textContent='всего: запланировано '+p+' · опубликовано '+u;
+}catch(e){}}
 </script>
 </body>
 </html>
