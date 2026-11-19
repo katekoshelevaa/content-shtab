@@ -75,11 +75,19 @@ h2{margin:28px 4px 12px;font-size:15px}
 .hero .tg .c.ok{background:var(--acc);color:#fff}.hero .tg .c.ok b{color:#fff}
 .hero .none{margin-top:8px;font-size:14px;color:#4a3a10;position:relative}
 .hero .hall{margin-top:8px;font-size:12px;color:#7a4a00;position:relative}
+
+/* === разделы Публикации / Скрипты / Промпты === */
+.views{display:flex;gap:8px;margin:0 0 12px}
+.views button{flex:1;border-radius:18px;padding:11px 6px;font-size:15px;font-weight:600;background:#fff;border:0;box-shadow:0 1px 0 var(--line)}
+.views button.on{background:var(--acc);color:#fff;box-shadow:none}
+#lib .card .note{margin:0}
 </style>
 </head>
 <body>
 <main>
 <div class="hero"><div class="hh"><b>Штаб Катерины</b><span id="hDate"></span></div><div id="hToday"></div><div class="hall" id="hAll"></div></div>
+<div id="views" class="views"></div>
+<div id="lib"></div>
 <div id="tabs" class="tabs"></div>
 <div id="app"></div>
 <div id="stats"></div>
@@ -190,7 +198,16 @@ function draw(){
   if(!list.length)app.innerHTML='<p class="note">Здесь пока ничего нет.</p>';
 }
 fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;if(d.items.some(i=>pkey(i.platform)==='instagram'))FIL='instagram';draw();hero()});
-const _dr=draw;draw=function(){_dr();hero()};
+
+let VIEW='pub',SC=null,SCP=0;
+function views(){const v=$('#views');v.innerHTML='';[['pub','Публикации'],['scr','Скрипты'],['prm','Промпты']].forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;if(VIEW===k)b.className='on';b.onclick=()=>{VIEW=k;draw()};v.appendChild(b)})}
+function txtItem(t){const d=document.createElement('details');d.className='txt';const sm=document.createElement('summary');sm.textContent=t.label;d.appendChild(sm);const bd=document.createElement('div');bd.className='body';bd.appendChild(document.createTextNode(t.text));const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);bd.appendChild(document.createElement('br'));bd.appendChild(cb);d.appendChild(bd);return d}
+function lib(){const L=$('#lib');L.innerHTML='';if(!SC){L.innerHTML='<p class="note">Загружаю...</p>';return}
+  if(VIEW==='scr'){const bar=document.createElement('div');bar.className='tabs';SC.scripts.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.title;if(i===SCP)b.className='on';b.onclick=()=>{SCP=i;draw()};bar.appendChild(b)});L.appendChild(bar);const s=SC.scripts[SCP];
+    if(!s||!s.items.length){const p=document.createElement('p');p.className='note';p.textContent='Пока пусто. Пришли тексты скриптов, и они появятся здесь.';L.appendChild(p)}else s.items.forEach(t=>L.appendChild(txtItem(t)))}
+  else{if(!SC.prompts.length){L.innerHTML='<p class="note">Пока пусто.</p>'}else SC.prompts.forEach(t=>L.appendChild(txtItem(t)))}}
+fetch('scripts.json?t='+Date.now()).then(r=>r.json()).then(d=>{SC=d;if(VIEW!=='pub')draw()}).catch(()=>{SC={scripts:[],prompts:[]}});
+const _dr=draw;draw=function(){views();const pub=VIEW==='pub';$('#tabs').style.display=pub?'':'none';$('#app').style.display=pub?'':'none';$('#stats').style.display=pub?'':'none';$('#lib').style.display=pub?'none':'';if(pub)_dr();else lib();hero()};
 function hero(){try{
 const t=iso(new Date()),it=DATA.items,td=it.filter(i=>i.date===t);let p=0,u=0;it.forEach(i=>{const s=getSt(i);if(s==='plan')p++;if(s==='pub')u++});
 const ms=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],n=new Date();
