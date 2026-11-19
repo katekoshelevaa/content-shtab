@@ -200,7 +200,7 @@ function draw(){
 fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;if(d.items.some(i=>pkey(i.platform)==='instagram'))FIL='instagram';draw();hero()});
 
 let VIEW='pub',SC=null,SCP=0;
-function views(){const v=$('#views');v.innerHTML='';[['pub','Публикации'],['scr','Скрипты'],['prm','Промпты']].forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;if(VIEW===k)b.className='on';b.onclick=()=>{VIEW=k;draw()};v.appendChild(b)})}
+function views(){const v=$('#views');v.innerHTML='';[['pub','Публикации'],['scr','Скрипты']].forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;if(VIEW===k)b.className='on';b.onclick=()=>{VIEW=k;draw()};v.appendChild(b)})}
 function txtItem(t){const d=document.createElement('details');d.className='txt';const sm=document.createElement('summary');sm.textContent=t.label;d.appendChild(sm);const bd=document.createElement('div');bd.className='body';bd.appendChild(document.createTextNode(t.text));const cb=document.createElement('button');cb.textContent='Скопировать текст';cb.style.marginTop='8px';cb.onclick=()=>copy(t.text);bd.appendChild(document.createElement('br'));bd.appendChild(cb);d.appendChild(bd);return d}
 function lib(){const L=$('#lib');L.innerHTML='';if(!SC){L.innerHTML='<p class="note">Загружаю...</p>';return}
   if(VIEW==='scr'){const bar=document.createElement('div');bar.className='tabs';SC.scripts.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.title;if(i===SCP)b.className='on';b.onclick=()=>{SCP=i;draw()};bar.appendChild(b)});L.appendChild(bar);const s=SC.scripts[SCP];
