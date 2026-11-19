@@ -30,12 +30,42 @@ button.main,a.main{background:var(--acc);border-color:var(--acc);color:#1c1c1c;f
 details.txt summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none}details.txt summary::-webkit-details-marker{display:none}details.txt summary:before{content:"▸ ";}details.txt[open] summary:before{content:"▾ ";}details.txt .body{margin-top:8px}
 .st{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.st button.on.plan{background:#e8d9a8;border-color:#e8d9a8;font-weight:600}.st button.on.pub{background:#cfe3c4;border-color:#cfe3c4;font-weight:600}.dt{color:var(--grey);font-size:13px;margin-left:6px}
 .foot{color:var(--grey);font-size:12px;margin-top:30px}
+/* === Новый вид Штаба: подача как в приложении-референсе, палитра Катерины: жёлтый, белый, оранжевый === */
+:root{--bg:#fff8e6;--acc:#f58529;--sun:#ffc83d;--sun-l:#ffe9a8;--sand:#fff1cc;--line:#f3e3b5;--r:26px}
+body{background:var(--bg)}
+main{max-width:640px;padding:14px 14px 70px}
+.hero{background:var(--sun);color:#1c1c1c;border-radius:30px;padding:20px 20px 18px;margin:4px 0 18px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-44px;top:-44px;width:170px;height:170px;border-radius:50%;background:var(--acc);opacity:.35}
+.hero small{display:block;color:#7a4a00;font-size:13px;font-weight:600;letter-spacing:.04em;margin-bottom:6px}
+.hero h1{margin:0 0 6px;font-size:26px;color:#1c1c1c;position:relative}
+.hero .sub{color:#4a3a10;margin:0;position:relative;font-size:14px}
+.hero .chips{display:flex;gap:12px;margin-top:18px;position:relative}
+.hero .chip{flex:1;background:#fff;border-radius:20px;padding:12px 14px}
+.hero .chip b{display:block;font-size:26px;color:var(--acc);line-height:1.1}
+.hero .chip span{font-size:12px;color:#6e6964}
+.card{border:0;background:#fff;border-radius:var(--r);padding:20px;box-shadow:0 8px 24px -16px rgba(120,80,0,.35)}
+.card h3{font-size:18px;line-height:1.25}
+.tag{border-radius:14px;padding:3px 12px;font-size:13px}
+.tabs{background:var(--bg);padding:6px 0 14px;gap:10px}
+.tabs button{background:#fff;border:0;border-radius:20px;padding:11px 18px;font-size:16px;box-shadow:0 1px 0 var(--line)}
+.tabs button.on{background:var(--acc);color:#fff;box-shadow:none}
+button,a.btn{border-radius:18px;padding:10px 16px;font-size:14px;background:#fff;border:1px solid var(--line)}
+button.main,a.main{background:var(--acc);border-color:var(--acc);color:#fff}
+.thumbs img,.thumbs video{height:130px;border-radius:18px;border:0}
+.txt{border:0;background:var(--sand);border-radius:20px;padding:12px 14px;font-size:14px}
+.st button.on.plan{background:var(--sun);border-color:var(--sun);color:#1c1c1c}
+.st button.on.pub{background:var(--acc);border-color:var(--acc);color:#fff}
+.cal{border:0;background:#fff;border-radius:var(--r);padding:18px;box-shadow:0 8px 24px -16px rgba(120,80,0,.35)}
+.day{border-radius:14px;min-height:48px}
+.day.sel{background:var(--sand)}
+.day.today .n{background:var(--acc);width:24px;height:24px;line-height:24px}
+h2{margin:28px 4px 12px;font-size:15px}
+.lb{background:var(--bg)}
 </style>
 </head>
 <body>
 <main>
-<h1>Архив публикаций</h1>
-<p class="sub">Готовые материалы по площадкам. Выбери площадку сверху, раскрой текст, скопируй, отметь «Запланировано» или «Опубликовано».</p>
+<div class="hero"><small>Штаб Катерины</small><h1>Архив публикаций</h1><p class="sub">Готовые материалы по площадкам. Выбери площадку, раскрой текст, скопируй, отметь статус.</p><div class="chips"><div class="chip"><b id="hPlan">0</b><span>запланировано</span></div><div class="chip"><b id="hPub">0</b><span>опубликовано</span></div></div></div>
 <div id="tabs" class="tabs"></div>
 <div id="app"></div>
 <div id="stats"></div>
@@ -156,7 +186,8 @@ function draw(){
   secs.forEach(([k,l])=>{const g=list.filter(i=>getSt(i)===k).sort((a,b)=>(a.date||'')<(b.date||'')?-1:1);if(!g.length)return;const h=document.createElement('h2');h.textContent=l+' · '+g.length;app.appendChild(h);g.forEach(i=>app.appendChild(card(i)))});
   if(!list.length)app.innerHTML='<p class="note">Здесь пока ничего нет.</p>';
 }
-fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;draw()});
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(d=>{DATA=d;draw();hero()});
+function hero(){try{let p=0,u=0;DATA.items.forEach(i=>{const s=getSt(i);if(s==='plan')p++;if(s==='pub')u++});$('#hPlan').textContent=p;$('#hPub').textContent=u}catch(e){}}
 </script>
 </body>
 </html>
