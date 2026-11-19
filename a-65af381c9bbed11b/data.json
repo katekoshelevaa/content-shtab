@@ -328,81 +328,11 @@
    ]
   },
   {
-   "id": "th1-1911",
-   "date": "2026-11-19",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Зачем мне ИИ-агент: рутина и решения",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-1911",
-   "date": "2026-11-19",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Агент и 2-3 часа в день",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-1911",
-   "date": "2026-11-19",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Что отдать агенту первым делом",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-1911",
    "date": "2026-11-19",
    "platform": "Instagram*",
    "kind": "Рилс",
    "title": "Агент разгружает мой день (текст голосом)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "tg-1911",
-   "date": "2026-11-19",
-   "platform": "Telegram",
-   "kind": "Пост",
-   "title": "Анонс группы по ИИ-агентам",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th1-2011",
-   "date": "2026-11-20",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Возражение «я не технарь»",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2011",
-   "date": "2026-11-20",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Возражение «нет времени»",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2011",
-   "date": "2026-11-20",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Возражение «дорого»",
    "files": [],
    "texts": [],
    "status": "plan"
@@ -428,46 +358,6 @@
    "status": "plan"
   },
   {
-   "id": "tg-2011",
-   "date": "2026-11-20",
-   "platform": "Telegram",
-   "kind": "Пост",
-   "title": "Что внутри группы и для кого",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th1-2111",
-   "date": "2026-11-21",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2111",
-   "date": "2026-11-21",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2111",
-   "date": "2026-11-21",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-2111",
    "date": "2026-11-21",
    "platform": "Instagram*",
@@ -478,81 +368,11 @@
    "status": "plan"
   },
   {
-   "id": "th1-2211",
-   "date": "2026-11-22",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2211",
-   "date": "2026-11-22",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2211",
-   "date": "2026-11-22",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-2211",
    "date": "2026-11-22",
    "platform": "Instagram*",
    "kind": "Рилс",
    "title": "Тема уточняется",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "tg-2211",
-   "date": "2026-11-22",
-   "platform": "Telegram",
-   "kind": "Пост",
-   "title": "Итог месяца и призыв написать «группа»",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th1-2311",
-   "date": "2026-11-23",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2311",
-   "date": "2026-11-23",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2311",
-   "date": "2026-11-23",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
    "files": [],
    "texts": [],
    "status": "plan"
@@ -578,81 +398,11 @@
    "status": "plan"
   },
   {
-   "id": "th1-2411",
-   "date": "2026-11-24",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2411",
-   "date": "2026-11-24",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2411",
-   "date": "2026-11-24",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-2411",
    "date": "2026-11-24",
    "platform": "Instagram*",
    "kind": "Рилс",
    "title": "Тема уточняется",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "tg-2411",
-   "date": "2026-11-24",
-   "platform": "Telegram",
-   "kind": "Пост",
-   "title": "Тема уточняется",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th1-2511",
-   "date": "2026-11-25",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2511",
-   "date": "2026-11-25",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2511",
-   "date": "2026-11-25",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
    "files": [],
    "texts": [],
    "status": "plan"
@@ -678,81 +428,11 @@
    "status": "plan"
   },
   {
-   "id": "th1-2611",
-   "date": "2026-11-26",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2611",
-   "date": "2026-11-26",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2611",
-   "date": "2026-11-26",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-2611",
    "date": "2026-11-26",
    "platform": "Instagram*",
    "kind": "Рилс",
    "title": "Тема уточняется",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "tg-2611",
-   "date": "2026-11-26",
-   "platform": "Telegram",
-   "kind": "Пост",
-   "title": "Тема уточняется",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th1-2711",
-   "date": "2026-11-27",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2711",
-   "date": "2026-11-27",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2711",
-   "date": "2026-11-27",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
    "files": [],
    "texts": [],
    "status": "plan"
@@ -778,36 +458,6 @@
    "status": "plan"
   },
   {
-   "id": "th1-2811",
-   "date": "2026-11-28",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2811",
-   "date": "2026-11-28",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2811",
-   "date": "2026-11-28",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-2811",
    "date": "2026-11-28",
    "platform": "Instagram*",
@@ -818,50 +468,10 @@
    "status": "plan"
   },
   {
-   "id": "th1-2911",
-   "date": "2026-11-29",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (1 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th2-2911",
-   "date": "2026-11-29",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (2 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "th3-2911",
-   "date": "2026-11-29",
-   "platform": "Threads",
-   "kind": "Пост",
-   "title": "Тема уточняется (3 из 3)",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
    "id": "ig-reel-2911",
    "date": "2026-11-29",
    "platform": "Instagram*",
    "kind": "Рилс",
-   "title": "Тема уточняется",
-   "files": [],
-   "texts": [],
-   "status": "plan"
-  },
-  {
-   "id": "tg-2911",
-   "date": "2026-11-29",
-   "platform": "Telegram",
-   "kind": "Пост",
    "title": "Тема уточняется",
    "files": [],
    "texts": [],
