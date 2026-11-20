@@ -491,6 +491,51 @@
    "files": [],
    "texts": [],
    "status": "plan"
+  },
+  {
+   "id": "pin-menu-2011",
+   "date": "2026-11-20",
+   "platform": "Pinterest",
+   "kind": "Карусель",
+   "title": "Карусель: меню на неделю за 5 минут",
+   "files": [
+    "pin-menu-2011/1.png",
+    "pin-menu-2011/2.png",
+    "pin-menu-2011/3.png",
+    "pin-menu-2011/4.png",
+    "pin-menu-2011/5.png"
+   ],
+   "texts": []
+  },
+  {
+   "id": "pin-resume-2311",
+   "date": "2026-11-23",
+   "platform": "Pinterest",
+   "kind": "Карусель",
+   "title": "Карусель: резюме для удалёнки",
+   "files": [
+    "pin-resume-2311/1.png",
+    "pin-resume-2311/2.png",
+    "pin-resume-2311/3.png",
+    "pin-resume-2311/4.png",
+    "pin-resume-2311/5.png"
+   ],
+   "texts": []
+  },
+  {
+   "id": "pin-mini-2511",
+   "date": "2026-11-25",
+   "platform": "Pinterest",
+   "kind": "Карусель",
+   "title": "Карусель: мини-продукт из частых вопросов",
+   "files": [
+    "pin-mini-2511/1.png",
+    "pin-mini-2511/2.png",
+    "pin-mini-2511/3.png",
+    "pin-mini-2511/4.png",
+    "pin-mini-2511/5.png"
+   ],
+   "texts": []
   }
  ],
  "plan": []
