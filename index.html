@@ -185,7 +185,21 @@ function card(it){
 fetch('stats.json?t='+Date.now()).then(r=>r.json()).then(renderStats).catch(()=>renderStats(null));
 let DATA=null,FIL='all';
 function getSt(it){try{const v=localStorage.getItem('st:'+it.id);if(v!==null)return v}catch(e){}return it.status||''}
-function setSt(it,v){try{localStorage.setItem('st:'+it.id,v)}catch(e){}it.status=v}
+function setSt(it,v){try{localStorage.setItem('st:'+it.id,v)}catch(e){}it.status=v;syncMark(it.id,v)}
+async function syncMark(id,v){
+  // отметка уходит в marks.json репозитория, чтобы её видела Сторика. Токен хранится только в этом браузере.
+  try{
+    let t=localStorage.getItem('gh_token');
+    if(!t){t=prompt('Чтобы Сторика видела отметки, вставь токен GitHub (один раз, он хранится только в этом браузере). Отмена: отметка останется только здесь.');if(!t)return;localStorage.setItem('gh_token',t.trim());t=t.trim()}
+    const u='https://api.github.com/repos/katekoshelevaa/content-shtab/contents/marks.json',h={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'};
+    let sha,m={};
+    const r=await fetch(u,{headers:h});
+    if(r.ok){const j=await r.json();sha=j.sha;m=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))))}
+    else if(r.status===401){localStorage.removeItem('gh_token');return}
+    m[id]={status:v,at:new Date().toISOString()};
+    await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Отметка в Штабе: '+id+' = '+(v||'готово'),content:btoa(unescape(encodeURIComponent(JSON.stringify(m,null,1)))),sha})});
+  }catch(e){}
+}
 function draw(){
   const items=DATA.items;
   const plats=[...new Set(items.map(i=>pkey(i.platform)))];
