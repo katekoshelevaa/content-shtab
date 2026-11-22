@@ -186,19 +186,31 @@ fetch('stats.json?t='+Date.now()).then(r=>r.json()).then(renderStats).catch(()=>
 let DATA=null,FIL='all';
 function getSt(it){try{const v=localStorage.getItem('st:'+it.id);if(v!==null)return v}catch(e){}return it.status||''}
 function setSt(it,v){try{localStorage.setItem('st:'+it.id,v)}catch(e){}it.status=v;syncMark(it.id,v)}
+function tokBox(){
+  if(document.getElementById('tokbox'))return;
+  const d=document.createElement('div');d.id='tokbox';
+  d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99;background:#fff;border:2px solid #f60;border-radius:12px;padding:12px;font:14px sans-serif;box-shadow:0 4px 20px #0003';
+  d.innerHTML='<div style="margin-bottom:8px">Чтобы Сторика видела отметки, вставь токен GitHub (один раз, хранится только в этом браузере)</div><input id="tokin" style="width:100%;box-sizing:border-box;padding:8px;font-size:14px" placeholder="github_pat_..."><div style="margin-top:8px"><button id="toksave" style="padding:8px 14px">Сохранить</button> <button id="tokno" style="padding:8px 14px">Не сейчас</button></div>';
+  document.body.appendChild(d);
+  document.getElementById('tokno').onclick=()=>d.remove();
+  document.getElementById('toksave').onclick=async()=>{const v=document.getElementById('tokin').value.trim();if(!v)return;localStorage.setItem('gh_token',v);d.remove();await syncAll()};
+}
+async function syncAll(){
+  try{const ids=Object.keys(localStorage).filter(k=>k.startsWith('st:'));if(!ids.length)return;
+    const t=localStorage.getItem('gh_token');if(!t)return;
+    const u='https://api.github.com/repos/katekoshelevaa/content-shtab/contents/marks.json',h={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'};
+    let sha,m={};const r=await fetch(u,{headers:h});
+    if(r.ok){const j=await r.json();sha=j.sha;m=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))))}
+    else if(r.status===401||r.status===403){localStorage.removeItem('gh_token');alert('Токен не подошёл');return}
+    ids.forEach(k=>{const id=k.slice(3);m[id]={status:localStorage.getItem(k),at:(m[id]&&m[id].at)||new Date().toISOString()}});
+    const w=await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Отметки Штаба',content:btoa(unescape(encodeURIComponent(JSON.stringify(m,null,1)))),sha})});
+    if(!w.ok)alert('Не удалось сохранить отметки: '+w.status);
+  }catch(e){}
+}
 async function syncMark(id,v){
   // отметка уходит в marks.json репозитория, чтобы её видела Сторика. Токен хранится только в этом браузере.
-  try{
-    let t=localStorage.getItem('gh_token');
-    if(!t){t=prompt('Чтобы Сторика видела отметки, вставь токен GitHub (один раз, он хранится только в этом браузере). Отмена: отметка останется только здесь.');if(!t)return;localStorage.setItem('gh_token',t.trim());t=t.trim()}
-    const u='https://api.github.com/repos/katekoshelevaa/content-shtab/contents/marks.json',h={Authorization:'Bearer '+t,Accept:'application/vnd.github+json'};
-    let sha,m={};
-    const r=await fetch(u,{headers:h});
-    if(r.ok){const j=await r.json();sha=j.sha;m=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))))}
-    else if(r.status===401){localStorage.removeItem('gh_token');return}
-    m[id]={status:v,at:new Date().toISOString()};
-    await fetch(u,{method:'PUT',headers:h,body:JSON.stringify({message:'Отметка в Штабе: '+id+' = '+(v||'готово'),content:btoa(unescape(encodeURIComponent(JSON.stringify(m,null,1)))),sha})});
-  }catch(e){}
+  if(!localStorage.getItem('gh_token')){tokBox();return}
+  await syncAll();
 }
 function draw(){
   const items=DATA.items;
